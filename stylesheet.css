@@ -1,0 +1,54 @@
+body {
+    background-color: lightslategrey;
+}
+.wrapper {
+    background-color: navajowhite;
+    height: 100%;
+    width: 75%;
+    text-align: center;
+    padding: 0px 0px 50px 0px;
+    margin: 0 auto 0 auto;
+    border-radius: 25px;
+}
+.headtitle {
+    padding: 50px 0px 25px 0px;
+    width: 100%;
+    text-align: center;
+    color: darkslategray;
+    text-shadow: 2px 2px white;
+}
+.mazehole {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: ghostwhite;
+    margin: 1px 1px 1px 1px;
+}
+.mazehole:hover {
+    background-color: lightslategray;
+}
+.mazerow {
+    font-size: 0;
+    text-align: center;
+    width: 100%;
+
+}
+.locationdisplay {
+    height: 75px;
+    width: 100px;
+    background-color: ghostwhite;
+    border-radius: 5px;
+    margin: 10px auto 0 auto;
+    padding: 1px 1px 1px 1px;
+
+}
+#locdisp {
+    color: darkslategray;
+    height: 80%;
+    width: 100%;
+    margin: 0 auto 0 auto;
+}
+.htmlloc {
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}

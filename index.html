@@ -6,9 +6,12 @@
 <title>Maze</title>
 </head>
 <body>
+
+
 <div class = "wrapper">
 <h1 class= "headtitle">You 'Maze Me</h1>
-
+<div id = "xGoalPos" class = "GoalPositionX"></div>
+<div id = "yGoalPos" class = "GoalPositionY"></div>
 
 <div class = "mazerow">
 <div class = "mazehole" id = "0,0"></div><div class = "mazehole" id = "1,0"></div><div class = "mazehole" id = "2,0"></div>
@@ -130,17 +133,12 @@
 <div class = "mazehole" id = "12,14"></div><div class = "mazehole" id = "13,14"></div><div class = "mazehole" id = "14,14"></div>
 </div>
 
-<div class = "locationdisplay" id = "locationdisplay"><h4 id = "locdisp">That location is:</h4>
-<div id = "htmlloc"></div>
+<div class = "locationdisplay" id = "locationdisplay"><h4 id = "locheader">That location is:</h4>
+<div id = "htmlloc" div class = "htmlloc"></div>
 
 </div>
+
 </div>
-<script type ="text/javascript">
- $('.mazehole').hover(function () {
- ($('#htmlloc').html (this.id))},
-function (){
-    $('#htmlloc').html("");
-    });
-            </script>
+<script type ="text/javascript" src="action.js"></script>
 </body>
 </html>

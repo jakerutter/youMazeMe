@@ -29,3 +29,9 @@ function (yint){
     });      
 
 
+//This can generate divs programatically
+//for(i = 0, i < 15, i++)
+//for(j = 0, j < 15, j++)
+//divHtml = "<div id =' " + i + ',' + j + " '></div>'
+//$('.masterDiv').append(
+//divHtml)

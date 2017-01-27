@@ -5,61 +5,29 @@ function (){
     $('#htmlloc').html("");
     });
 
-//Selects 2 Random numbers to create an EXIT for the maze on the perimeter.
-var xint = 0;
-var yint = 0;
+//Selects 2 Random numbers to create and ENTRY & EXIT for the maze on the perimeter.
+
 var xGoalPos = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
 var yGoalPos = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
- $('.GoalPositionX').hover(function (xint) {
-     return xGoalPos;    
-($('#xGoalPos').html (xGoalPos))},
-function (){
-    $('#xGoalPos').html(xGoalPos);
-    });
- $('.GoalPositionX').hover(function (yint) {
-     if (yGoalPos >= 6){
-         yGoalPos = 14
-         return yGoalPos;
-     } 
-     else {
-     (yGoalPos = 0)
-     return yGoalPos;}
-($('#yGoalPos').html (yGoalPos))},
-function (yint){
-    $('#yGoalPos').html(yGoalPos);
-    });      
-
-//Selects 2 Random numbers to create an Entrance for the maze on the perimeter.
-var xint = 0;
-var yint = 0;
 var xEntryPos = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
 var yEntryPos = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
- $('.EntryPositionX').hover(function (xint) {
-     return xEntryPos;    
-($('#xEntryPos').html (xEntryPos))},
-function (){
-    $('#xEntryPos').html(xEntryPos);
-    });
- $('.EntryPositionX').hover(function (yint) {
-     if (yEntryPos >= 6){
-         yEntryPos = 14
-         return yEntryPos;
-     } 
-     else {
-     (yEntryPos = 0)
-     return yEntryPos;}
-($('#yEntryPos').html (yEntryPos))},
-function (yint){
-    $('#yEntryPos').html(yEntryPos);
-    });      
+ $('.GoalPositionX').text(xGoalPos)
+ $('.GoalPositionY').text(yGoalPos)
+ $('.EntryPositionX').text(xEntryPos)
+ $('.EntryPositionY').text(yEntryPos)
+     
+ //selects the random number and gets them into html id format for comparisons.
+var entryNum = (xEntryPos+","+yEntryPos);
+var exitNum = (xGoalPos+","+yGoalPos);
+var entryID = ("#"+entryNum);
+var exitID = ("#"+exitNum);
 
-//This will color the selected ID ^ a different color to mark it as the entrance/exit of the maze.
+$(".mazehole").each(function() {
+   var isEntry = $(this).attr('id');
+   if( isEntry == entryID || isEntry == entryNum)
+      document.getElementById(isEntry).style.backgroundColor = "lightblue";
 
-var markEntry = (function(xGoalPos,yGoalPos){ $("id-" + xGoalPos + "," + yGoalPos).css("background-color", "#FBB");});
-
-
-
-
+});
 
 
 //This can generate divs programatically

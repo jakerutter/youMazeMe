@@ -12,7 +12,12 @@ body {
     border-radius: 25px;
 }
 .leftside {
-    position: fixed;
+    float: left;
+    margin: 0 auto 0 auto;
+}
+
+.rightside {
+    float: right;
     margin: 0 auto 0 auto;
 }
 
@@ -67,8 +72,8 @@ body {
     background-color: ghostwhite;
     border: none;
     border-radius: 5px;
-    margin: 25px 0px 25px 25px;
-    padding: 1px 1px 1px 1px;
+    margin: 25px 0px 25px 0px;
+    
 }
 .GoalPositionY {
     height: 65px;
@@ -76,20 +81,52 @@ body {
     background-color: ghostwhite;
     border: none;
     border-radius: 5px;
-    margin: 0px 0px 25px 25px;
-    padding: 1px 1px 1px 1px;
+    margin: 0px 0px 25px 0px;
+    
 }
 #xGoalPos {
     font-size: 16px;
     padding: 25px 0px 0px 0px;
-    margin: 50px 0px 0px 25px;
+    margin: 50px 0px 0px 0px;
     font-family: verdana;
     font-style: bold;
 }
 #yGoalPos {
     font-size: 16px;
     padding: 25px 0px 0px 0px;
-    margin: 20px 0px 0px 25px;
+    margin: 20px 0px 0px 0px;
+    font-family: verdana;
+    font-style: bold;
+}
+.EntryPositionX {
+    height: 65px;
+    width: 100px;
+    background-color: ghostwhite;
+    border: none;
+    border-radius: 5px;
+    margin: 25px 0px 25px 0px;
+    
+}
+.EntryPositionY {
+    height: 65px;
+    width: 100px;
+    background-color: ghostwhite;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 0px 25px 0px;
+    
+}
+#xEntryPos {
+    font-size: 16px;
+    padding: 25px 0px 0px 0px;
+    margin: 50px 0px 0px 0px;
+    font-family: verdana;
+    font-style: bold;
+}
+#yEntryPos {
+    font-size: 16px;
+    padding: 25px 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
     font-family: verdana;
     font-style: bold;
 }

@@ -57,14 +57,14 @@ var exitNum = (xGoalPos+","+yGoalPos);
 $(".mazehole").each(function() {
    var isEntry = $(this).attr('id');
    if( isEntry == entryNum)
-      document.getElementById(isEntry).style.backgroundColor = "lightblue";
+      document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";
 
 });
 //Colors the Exit square
 $(".mazehole").each(function() {
    var isExit = $(this).attr('id');
    if(isExit == exitNum)
-      document.getElementById(isExit).style.backgroundColor = "red";
+      document.getElementById(isExit).style.backgroundColor = "firebrick";
 
 });
 

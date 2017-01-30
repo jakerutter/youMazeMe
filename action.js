@@ -52,21 +52,35 @@ else {
  //selects the random number and gets them into html grid-id format for comparisons.
 var entryNum = (xEntryPos+","+yEntryPos);
 var exitNum = (xGoalPos+","+yGoalPos);
+//creates 20 Wall tiles.
+var numberOfWalls = [];
+var wallsMade = 0;
+for (x=0; x<20; x++) {
+    var wallTilex = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
+    var wallTiley = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
+    var isWall = (wallTilex+","+wallTiley);
+    numberOfWalls.push(isWall)
 
-//Colors the Entry square
+};
+//Colors the Entry square & Exit squares as well as the Wall squares.
 $(".mazehole").each(function() {
+     var isWallTile = $(this).attr('id');
+    for (x=0; x<numberOfWalls.length; x++){
+    if (isWallTile == numberOfWalls[x]){
+    document.getElementById(numberOfWalls[x]).style.backgroundColor = "black";}}
    var isEntry = $(this).attr('id');
    if( isEntry == entryNum)
       document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";
-
-});
-//Colors the Exit square
-$(".mazehole").each(function() {
-   var isExit = $(this).attr('id');
+      var isExit = $(this).attr('id');
    if(isExit == exitNum)
-      document.getElementById(isExit).style.backgroundColor = "firebrick";
-
+        document.getElementById(isExit).style.backgroundColor = "firebrick";
+    
 });
+
+
+//Going to begin the cost-assigning of potential moves here.
+
+
 
 
 

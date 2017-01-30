@@ -52,16 +52,21 @@ else {
  //selects the random number and gets them into html grid-id format for comparisons.
 var entryNum = (xEntryPos+","+yEntryPos);
 var exitNum = (xGoalPos+","+yGoalPos);
-//creates 20 Wall tiles.
+//creates Wall tiles.
 var numberOfWalls = [];
 var wallsMade = 0;
-for (x=0; x<20; x++) {
-    var wallTilex = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
-    var wallTiley = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
-    var isWall = (wallTilex+","+wallTiley);
-    numberOfWalls.push(isWall)
-
-};
+for (x=0; x<30; x++) {
+    if (upAndDown){
+     var wallTilex = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
+        var wallTiley = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
+        var isWall = (wallTilex+","+wallTiley);
+        numberOfWalls.push(isWall)}
+    else{
+        var wallTilex = Math.floor(Math.random() * (13 - 1 + 1)) + 1;
+        var wallTiley = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
+        var isWall = (wallTilex+","+wallTiley);
+        numberOfWalls.push(isWall)}
+    };
 //Colors the Entry square & Exit squares as well as the Wall squares.
 $(".mazehole").each(function() {
      var isWallTile = $(this).attr('id');
@@ -69,27 +74,14 @@ $(".mazehole").each(function() {
     if (isWallTile == numberOfWalls[x]){
     document.getElementById(numberOfWalls[x]).style.backgroundColor = "black";}}
    var isEntry = $(this).attr('id');
-   if( isEntry == entryNum)
-      document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";
+   if( isEntry == entryNum){
+   document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";}
       var isExit = $(this).attr('id');
-   if(isExit == exitNum)
-        document.getElementById(isExit).style.backgroundColor = "firebrick";
+   if(isExit == exitNum){
+   document.getElementById(isExit).style.backgroundColor = "firebrick";}
+
     
 });
 
-
-//Going to begin the cost-assigning of potential moves here.
-
-
-
-
-
-
-
-
-//This can generate divs programatically
-//for(i = 0, i < 15, i++)
-//for(j = 0, j < 15, j++)
-//divHtml = "<div id =' " + i + ',' + j + " '></div>'
-//$('.masterDiv').append(
-//divHtml)
+//Cost of tile = difference in x,y of Exit location and that tile. If a tile is -1x value and -1y value from Exit
+//location it has an effective cost of 2 because each movement is +-1 on x or y axis (no diagonal moves).

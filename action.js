@@ -1,3 +1,4 @@
+
 //Colors the MAZEHOLE gray when it is hovered over.
 $('.mazehole').hover(function () {
 ($('#htmlloc').html (this.id))},
@@ -8,7 +9,6 @@ function (){
 //Create a random number to determine if the maze will orient and constrain the Entry and Exit
 //vertically or horizontally away from one another.
 var upAndDown = true;
-
 var Orientation = Math.floor(Math.random()*2);
 if (Orientation >= 1)
     { upAndDown = true;}
@@ -52,9 +52,10 @@ else {
  //selects the random number and gets them into html grid-id format for comparisons.
 var entryNum = (xEntryPos+","+yEntryPos);
 var exitNum = (xGoalPos+","+yGoalPos);
+var currentPosX = xEntryPos;
+var currentPosY = yEntryPos;
 //creates Wall tiles.
 var numberOfWalls = [];
-var wallsMade = 0;
 for (x=0; x<30; x++) {
     if (upAndDown){
      var wallTilex = Math.floor(Math.random() * (14 - 0 + 1)) + 0;
@@ -68,20 +69,27 @@ for (x=0; x<30; x++) {
         numberOfWalls.push(isWall)}
     };
 //Colors the Entry square & Exit squares as well as the Wall squares.
+var isValidMove = true;
+var allTiles = [];
+//Create a test to determine if the tile is next to the current position.
+var isNextTo = false;
+var isValidTile = [];
 $(".mazehole").each(function() {
-     var isWallTile = $(this).attr('id');
+    var isWallTile = $(this).attr('id');
+    allTiles.push(isWallTile);
     for (x=0; x<numberOfWalls.length; x++){
-    if (isWallTile == numberOfWalls[x]){
-    document.getElementById(numberOfWalls[x]).style.backgroundColor = "black";}}
+       if (isWallTile == numberOfWalls[x]){
+          document.getElementById(numberOfWalls[x]).style.backgroundColor = "black";}}
    var isEntry = $(this).attr('id');
    if( isEntry == entryNum){
-   document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";}
+      document.getElementById(isEntry).style.backgroundColor = "cornflowerblue";}
       var isExit = $(this).attr('id');
    if(isExit == exitNum){
-   document.getElementById(isExit).style.backgroundColor = "firebrick";}
+      document.getElementById(isExit).style.backgroundColor = "firebrick";}
+   var isMove = $(this).attr('id');
+   if (((currentPosX-1) +","+ currentPosY == isMove) || ((currentPosX+1) +","+ currentPosY == isMove) || (currentPosX +","+ (currentPosY-1) == isMove)||(currentPosX +","+ (currentPosY+1) == isMove)){
+      isNextTo = true;
+      document.getElementById(isMove).style.backgroundColor = "green";}
 
     
-});
-
-//Cost of tile = difference in x,y of Exit location and that tile. If a tile is -1x value and -1y value from Exit
-//location it has an effective cost of 2 because each movement is +-1 on x or y axis (no diagonal moves).
+     }); 

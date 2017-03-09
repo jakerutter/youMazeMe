@@ -20,7 +20,10 @@ var nodeArray = [];
 var queueForSearch = [];
 var nodesForEntryAndExit = [];
 
-
+//HEAVY REFACTORING REQUIRED
+//make a variable to hold the distanceSearching and +1 each time the function runs.
+//Use setInterval instead of SetTimeout to run the same function over and over until complete.
+//Use an array of colors or a dictionary to provide the new color for each iteration of the function.
 
 
 determineMazeOrientation(upAndDown);
@@ -37,9 +40,23 @@ $('.EntryPositionY').text(entryNode);
 populateEntryTile(entryNode);
 populateExitTile(exitNode);
 identifyNodesNextToEntry(entryNode,nodeArray);
-populateNodesNextToEntry(nodeArray);
-identifyValidTiles(nodeArray);
-populateValidTiles(nodeArray);
+var tID = setTimeout(populateNodesNextToEntry,2000,nodeArray);
+identifyValidTiles2(nodeArray);
+var tID2 = setTimeout(populateValidTiles2,3500,nodeArray);
+//The following are simply to check my algorithms. I need to figure out how to do this in 1 function ideally.
+identifyValidTiles3(nodeArray);
+var tID3 = setTimeout(populateValidTiles3,5000,nodeArray);
+identifyValidTiles4(nodeArray);
+var tID4 = setTimeout(populateValidTiles4,6500,nodeArray);
+identifyValidTiles5(nodeArray);
+var tID5 = setTimeout(populateValidTiles5,8000,nodeArray);
+identifyValidTiles6(nodeArray);
+var tID3 = setTimeout(populateValidTiles6,9500,nodeArray);
+identifyValidTiles7(nodeArray);
+var tID4 = setTimeout(populateValidTiles7,11000,nodeArray);
+identifyValidTiles8(nodeArray);
+var tID5 = setTimeout(populateValidTiles8,12500,nodeArray);
+
 
 
 
@@ -100,11 +117,10 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
 };
 
 //Function to populate Wall Tiles
-function populateWallTiles(nodeArray){  
-    //alert("In populate walls. " + nodeArray.length);  
+function populateWallTiles(nodeArray){ 
     for (i=0; i<nodeArray.length; i++){
        if (nodeArray[i].isAWall == true){
-            document.getElementById(i).style.backgroundColor = "black";}
+            document.getElementById(i).style.backgroundColor = nodeArray[i].backgroundcolor;}
         }
             return nodeArray;
 };
@@ -122,7 +138,7 @@ function populateExitTile(x){
 //find nodes next to entry tile and set their Visited to True & distance to 1
 function identifyNodesNextToEntry(entryNode,nodeArray){
       for (i=0; i<nodeArray.length; i++){
-         if (i == entryNode){
+         if (nodeArray[i].id == entryNode){
             nodeArray[i].visited = true;
             nodeArray[i].distance = 0;
             nodeArray[i].backgroundcolor = "cornflowerblue";
@@ -160,7 +176,7 @@ function identifyNodesNextToEntry(entryNode,nodeArray){
     for (var i=0; i<nodeArray.length; i++){
         if (nodeArray[i].visited == true){       
             if (nodeArray[i].distance == 1){    
-           nodeArray[i].backgroundcolor = "green";
+            nodeArray[i].backgroundcolor = "green";
             document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
         }}}  
 };
@@ -168,9 +184,9 @@ function identifyNodesNextToEntry(entryNode,nodeArray){
 
         
 // Function will identify and Queue the nodes for searching
-function identifyValidTiles(nodeArray){ 
+function identifyValidTiles2(nodeArray){
     for (i=0; i<nodeArray.length; i++){
-        if (nodeArray[i].visited == true && nodeArray[i].id != entryNode){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 1){
             if (nodeArray[i].id == 0){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
                     nodeArray[i+1].visited = true;
@@ -263,7 +279,7 @@ function identifyValidTiles(nodeArray){
                  if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].backgroundcolor = "blue";
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
                     nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
@@ -275,7 +291,7 @@ function identifyValidTiles(nodeArray){
             }
             if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].visited = true;                
                     nodeArray[i+1].backgroundcolor = "blue";
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
@@ -335,11 +351,12 @@ function identifyValidTiles(nodeArray){
                 }
         }
     }
+    
     return nodeArray;
 };
 
 //Popuate the Distance == 2 nodes
-     function populateValidTiles(nodeArray){
+     function populateValidTiles2(nodeArray){
     for (var i=0; i<nodeArray.length; i++){
         if (nodeArray[i].visited == true){       
             if (nodeArray[i].distance == 2){    
@@ -348,44 +365,1088 @@ function identifyValidTiles(nodeArray){
 };
 
 
+        
+// Function will identify and Queue the nodes for searching
+function identifyValidTiles3(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 2){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "purple";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "purple";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "purple";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "purple";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
+//Popuate the Distance == 3 nodes
+     function populateValidTiles3(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 3){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
+// Function will identify and Queue the nodes for searching
+function identifyValidTiles4(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 3){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "red";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "red";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "red";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "red";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
+//Popuate the Distance == 4 nodes
+     function populateValidTiles4(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 4){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
 
+function identifyValidTiles5(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 4){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "orange";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "orange";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "orange";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
+//Popuate the Distance == 5 nodes
+     function populateValidTiles5(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 5){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
 
+function identifyValidTiles6(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 5){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "peru";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "peru";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "peru";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "peru";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "orange";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "peru";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "peru";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "peru";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "peru";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
+//Popuate the Distance == 6 nodes
+     function populateValidTiles6(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 6){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
 
-// function populateValidTiles(queueForSearch,entryNode,wallNodes){   
-//     var validNodes = [];
-//     var newValidNodes = [];
-//     validNodes = $(queueForSearch).not(wallNodes).get();
-//     newValidNodes = $(validNodes).not(entryNode).get();
-//     queueForSearch = [];                 
-//     for(i=0; i<newValidNodes.length; i++){
-//         queueForSearch.push(newValidNodes[i])         
-//         document.getElementById(newValidNodes[i]).style.backgroundColor = "blue";
-// }
-//     return queueForSearch;
-// };
+function identifyValidTiles7(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 6){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "olive";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "olive";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "olive";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "olive";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
+//Popuate the Distance == 7 nodes
+     function populateValidTiles7(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 7){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
 
+function identifyValidTiles8(nodeArray){
+    for (i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true && nodeArray[i].distance == 7){
+            if (nodeArray[i].id == 0){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 14){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
+                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 }
+            }
+            if (nodeArray[i].id == 210){
+                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;                   
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+            if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
+                if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;                
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                }
+            }
+            if (nodeArray[i].id == 224){
+                 if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                 }
+                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+            }
+                if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
+                    if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
+                    nodeArray[i+1].visited = true;
+                    nodeArray[i+1].backgroundcolor = "darkgreen";
+                    nodeArray[i+1].distance = nodeArray[i].distance +1;
+                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
+                    nodeArray[i+15].visited = true;
+                    nodeArray[i+15].backgroundcolor = "darkgreen";
+                    nodeArray[i+15].distance = nodeArray[i].distance +1;
+                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                 }
+                    if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
+                    nodeArray[i-1].visited = true;
+                    nodeArray[i-1].backgroundcolor = "darkgreen";
+                    nodeArray[i-1].distance = nodeArray[i].distance +1;
+                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                }
+                    if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
+                    nodeArray[i-15].visited = true;
+                    nodeArray[i-15].backgroundcolor = "darkgreen";
+                    nodeArray[i-15].distance = nodeArray[i].distance +1;
+                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                 } 
+                }
+        }
+    }
+    
+    return nodeArray;
+};
 
-// //THIS CODE IS TO INITIATE A TIMER
-// var x;
-// function changeColors(){
-//     x = 1;
-//     setInterval(change, 1000);
-// }
-// function change() {
-//     if (x === 1) {
-//         color = "red";
-//         x = 2;
-//     } else {
-//         color = "green";
-//         x = 1;
-//     }
-//     document.body.style.background = color;
-// }
+//Popuate the Distance == 8 nodes
+     function populateValidTiles8(nodeArray){
+    for (var i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].visited == true){       
+            if (nodeArray[i].distance == 8){    
+            document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
+        }}}  
+};
+
 
 
 // var queue = [];
@@ -407,18 +1468,16 @@ function identifyValidTiles(nodeArray){
 
 function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
+    var backgroundcolor = "empty";
     var path = [];
     for(i=0; i<allTiles.length; i++){
-        myNode = new Node(i,"empty",0,false,false,path);
+        myNode = new Node(i,backgroundcolor,0,false,false,path);
             nodeArray.push(myNode);
         };
 return nodeArray;
 };
 
 
-//Inside of myNode can create an object that holds an array. This array can
-//hold the position of the tile that initialized that one and will then provide
-//a trail back to the entry node.
 
 
 //Used to eliminate duplicates throughout the process
@@ -436,3 +1495,21 @@ return nodeArray;
 //   queueForSearch = out;
 //   return queueForSearch;
 // };
+
+
+// //THIS CODE IS TO INITIATE A TIMER
+// var x;
+// function changeColors(){
+//     x = 1;
+//     setInterval(change, 1000);
+// }
+// function change() {
+//     if (x === 1) {
+//         color = "red";
+//         x + 1;
+//     } else {
+//         color = "green";
+//         x = 1;
+//     }
+//     document.body.style.background = color;
+// }

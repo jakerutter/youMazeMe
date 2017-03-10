@@ -40,11 +40,11 @@ $('.EntryPositionY').text(entryNode);
 populateEntryTile(entryNode,nodeArray);
 populateExitTile(exitNode,nodeArray);
 identifyNodesNextToEntry(entryNode,nodeArray);
-var tID = setTimeout(populateNodesNextToEntry,1000,nodeArray);
+var tID = setTimeout(populateNodesNextToEntry,500,nodeArray);
 identifyValidTiles2(nodeArray,exitNode);
 
 //separate the turds
-var myVar = setInterval(function(){ populateValidTiles2(nodeArray,exitNode)}, 1000);
+var myVar = setInterval(function(){ populateValidTiles2(nodeArray,exitNode)}, 750);
  var colordepth = 2;
     function populateValidTiles2(nodeArray,exitNode){
        
@@ -54,13 +54,12 @@ var myVar = setInterval(function(){ populateValidTiles2(nodeArray,exitNode)}, 10
             document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
             }
         }
-    
-    }
-    
+    }  
     colordepth += 1;
     //return nodeArray;  
 };
 
+optimumPath(nodeArray);
 
 
 
@@ -394,29 +393,11 @@ function identifyValidTiles2(nodeArray,exitNode){
     return nodeArray;
 };
 
-//Popuate the Distance == 2 nodes
-//      function populateValidTiles2(nodeArray,exitNode){
-//         var colordepth = 2;
-//         for (i=0; i<nodeArray.length; i++){
-//         if (nodeArray[i].visited == true){
-//             if(nodeArray[i].distance == colordepth && nodeArray[i].id != exitNode){ 
-//             document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
-//             }
-//         }
-//     }
-//     colordepth += 1;
-//     return nodeArray;  
-// };
-
-
-
 // var queue = [];
 // queue.push(2);         // queue is now [2]
 // queue.push(5);         // queue is now [2, 5]
 // var i = queue.shift(); // queue is now [5]
 // alert(i);              // displays 2
-
-
 
   function Node(id,backgroundcolor,distance,visited,isAWall,path){
   this.id = id;
@@ -430,15 +411,18 @@ function identifyValidTiles2(nodeArray,exitNode){
 function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
     var backgroundcolor = {
-        "0": "green", "1": "cornflowerblue", "2": "mediumblue", "3": "darkslateblue", "4": "purple",
-        "5": "indigo", "6": "violet", "7":"salmon", "8":"orange", "9":"orangered", "10":"darkred",
-        "11":"saddlebrown", "12":"olive", "13":"olivedrab", "14":"forestgreen", "15":"yellowgreen",
-        "16":"gold", "17":"goldenrod", "18":"gold", "19": "silver", "20": "gray", "21": "darkgray", 
-        "22": "cadetblue", "23":"royalblue", "24": "navy", "25": "lightslategray",
-        "26":"lightsteelblue", "27":"mediumturquoise", "28":"mediumseagreen", "29":"aquamarine", "30":"moccasin",
-        "31":"sandybrown", "32":"sienna", "33":"darkred", "34":"crimson", "35": "maroon", "36":"purple"
+        "0": "green", "1": "#1e12bc", "2": "#1218bc", "3": "#1229bc", "4": "#123abc",
+        "5": "#124ebc", "6": "#1262bc", "7":"#1275bc", "8": "#1286bc", "9":"#129abc", "10":"#12aebc",
+        "11":"#12bcb7", "12":"#12bca3", "13":"#12bc8f", "14":"#12bc7b", "15":"#12bc6a",
+        "16":"#12bc56", "17":"#12bc42", "18":"#12bc12", "19": "#12bc1b", "20": "#1ebc12", "21": "#32bc12", 
+        "22":"#45bc12", "23": "#51bc12", "24": "#64bc12", "25":"#78bc12", "26":"#8fbc12", 
+        "27":"#a0bc12", "28":"#b7bc12", "29":"#bcae12", "30":"#bc9a12", "31":"#bc8612", "32":"#bc7312", 
+        "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "#c90c0c", "38":"#ea0404",
+        "39":"#fc0505", "40": "purple", "41":"purple", "42":"purple", "43": "purple", "44":"purple",
     };
-    //"rgb(155, 102, 102)"
+    //If I decide to use rbg colors and iterate them mathmatically. 
+    
+//Set all nodes with their initial values   
     var path = [];
     for(i=0; i<allTiles.length; i++){
         myNode = new Node(i,backgroundcolor,0,false,false,path);
@@ -447,8 +431,13 @@ function assignNodeProperties(allTiles,nodeArray){
 return nodeArray;
 };
 
+//display the optimum path to the exit
 function optimumPath(nodeArray){
-
+    for(i=0; i<nodeArray.length; i++){
+        if (nodeArray[i].id == exitNode){
+            alert(nodeArray[i].path);
+        }
+    }
 };
 
 

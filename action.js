@@ -1,31 +1,26 @@
 
 //Colors the Node gray when it is hovered over.
 $('.mazehole').hover(function() {
-($('#htmlloc').html(this.title))},
+($('#htmlloc').html(this.id))},
 function(){
     $('#htmlloc').html("");
     });
-
 var allTiles = [];
 $(".mazehole").each(function() {
     var isTile = $(this).attr('id');
      allTiles.push(isTile);
     return allTiles;    
 });
-
 var upAndDown = "";  
+var finalPath = [];
 var wallNodes = [];
-
 var nodeArray = [];
 var queueForSearch = [];
 var nodesForEntryAndExit = [];
-
 //HEAVY REFACTORING REQUIRED
 //make a variable to hold the distanceSearching and +1 each time the function runs.
 //Use setInterval instead of SetTimeout to run the same function over and over until complete.
 //Use an array of colors or a dictionary to provide the new color for each iteration of the function.
-
-
 determineMazeOrientation(upAndDown);
 assignNodeProperties(allTiles,nodeArray);
 generateWallTiles(upAndDown,nodeArray,wallNodes);
@@ -40,14 +35,14 @@ $('.EntryPositionY').text(entryNode);
 populateEntryTile(entryNode,nodeArray);
 populateExitTile(exitNode,nodeArray);
 identifyNodesNextToEntry(entryNode,nodeArray);
-var tID = setTimeout(populateNodesNextToEntry,1000,nodeArray);
+var tID = setTimeout(populateNodesNextToEntry,500,nodeArray);
+//clearTimeout(tID);
 identifyValidTiles2(nodeArray,exitNode);
 
-//separate the turds
-var myVar = setInterval(function(){ populateValidTiles2(nodeArray,exitNode)}, 1000);
- var colordepth = 2;
+//Timer that delays the populating of nodes for the search
+var myVar = setInterval(function(){populateValidTiles2(nodeArray,exitNode)}, 600);
+     var colordepth = 2;
     function populateValidTiles2(nodeArray,exitNode){
-       
         for (i=0; i<nodeArray.length; i++){
         if (nodeArray[i].visited == true){
             if(nodeArray[i].distance == colordepth && nodeArray[i].id != exitNode){ 
@@ -56,14 +51,12 @@ var myVar = setInterval(function(){ populateValidTiles2(nodeArray,exitNode)}, 10
         }
     }  
     colordepth += 1;
-    //return nodeArray;  
+    return nodeArray;  
 };
-
-optimumPath(nodeArray);
-
-
-
-
+//clearInterval(myVar);
+optimalPath(nodeArray,exitNode,finalPath);
+//alert(finalPath.length);
+// alert(finalPath);
 
 
 
@@ -146,6 +139,7 @@ function populateEntryTile(entryNode,nodeArray){
         if (nodeArray[i].id == entryNode){
             nodeArray[i].distance = 0;
             nodeArray[i].visited = true;
+            nodeArray[i].path.push(nodeArray[i].id);
             nodeArray[i].backgroundcolor = nodeArray[i].backgroundcolor[nodeArray[i].distance];
             document.getElementById(entryNode).style.backgroundColor = nodeArray[i].backgroundcolor;
         }
@@ -177,15 +171,26 @@ function identifyNodesNextToEntry(entryNode,nodeArray){
                 if (entryNode < 224){
                 nodeArray[i+1].visited = true;
                 nodeArray[i+1].distance = 1;
-                nodeArray[i+1].path.push(nodeArray[i].id);}
+                nodeArray[i+1].path = nodeArray[i].path;
+                nodeArray[i+1].path.push(nodeArray[i+1].id);
+                //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
+                 //alert(nodeArray[i+1].path);
+              
+                }
                 if (entryNode != 210){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = 1;
-                    nodeArray[i-1].path.push(nodeArray[i].id);}     
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);    
+                }     
                 if(nodeArray[i-15].isAWall == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = 1;
-                    nodeArray[i-15].path.push(nodeArray[i].id);}
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
+            }
                 }
         else{
             nodeArray[i+15].visited = true;
@@ -193,11 +198,17 @@ function identifyNodesNextToEntry(entryNode,nodeArray){
             nodeArray[i+15].path.push(nodeArray[i].id);
             nodeArray[i-15].visited = true;
             nodeArray[i-15].distance = 1;
-            nodeArray[i-15].path.push(nodeArray[i].id);
+            nodeArray[i-15].path = nodeArray[i].path;
+            nodeArray[i-15].path.push(nodeArray[i-15].id);
+            //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
+            // alert(nodeArray[i-15].path);
             if (nodeArray[i-1].isAWall == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = 1;
-                    nodeArray[i-1].path.push(nodeArray[i].id);}      
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
+            }      
            }}}
        return nodeArray;
      };
@@ -211,7 +222,8 @@ function identifyNodesNextToEntry(entryNode,nodeArray){
             document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
             }
         }
-    }  
+    }
+    return nodeArray;  
 };
 
        
@@ -224,19 +236,26 @@ function identifyValidTiles2(nodeArray,exitNode){
         if (nodeArray[i].visited == true && nodeArray[i].distance == depth){
             if (nodeArray[i].id == exitNode){
                 nodeArray[i].visited = true;
+                nodeArray[i].path.push(nodeArray[i].id);
+                // Array.prototype.push.apply(nodeArray[i].path)
             }
             if (nodeArray[i].id == 0){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].path = nodeArray[i].path;
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
+                    //alert(nodeArray[i+1].path);
                 }
                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                 }
             }
             if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
@@ -244,19 +263,25 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].path = nodeArray[i].path;
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
                 }
                   if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                 }
             }
             if (nodeArray[i].id == 14){
@@ -264,13 +289,17 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                 }
             }
             if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
@@ -278,19 +307,25 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].path = nodeArray[i].path;
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
                  }
                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                  }
             }
             if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
@@ -298,33 +333,43 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                  }
                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                   // Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                  }
             }
             if (nodeArray[i].id == 210){
                  if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];                   
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
+                    nodeArray[i+1].path = nodeArray[i].path;                   
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                  } 
             }
             if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
@@ -332,19 +377,25 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+1].visited = true;                
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].path = nodeArray[i].path;
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                 }
                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                 }
             }
             if (nodeArray[i].id == 224){
@@ -352,13 +403,17 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                  } 
             }
                 if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
@@ -366,25 +421,33 @@ function identifyValidTiles2(nodeArray,exitNode){
                     nodeArray[i+1].visited = true;
                     nodeArray[i+1].distance = nodeArray[i].distance +1;
                     nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].path = nodeArray[i+1].path.concat(nodeArray[i].path);
+                    nodeArray[i+1].path = nodeArray[i].path;
+                    nodeArray[i+1].path.push(nodeArray[i+1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+1].path);
                 }
                     if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
                     nodeArray[i+15].visited = true;
                     nodeArray[i+15].distance = nodeArray[i].distance +1;
                     nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].path = nodeArray[i+15].path.concat(nodeArray[i].path);
+                    nodeArray[i+15].path = nodeArray[i].path;
+                    nodeArray[i+15].path.push(nodeArray[i+15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i+15].path);
                  }
                     if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
                     nodeArray[i-1].visited = true;
                     nodeArray[i-1].distance = nodeArray[i].distance +1;
                     nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].path = nodeArray[i-1].path.concat(nodeArray[i].path);
+                    nodeArray[i-1].path = nodeArray[i].path;
+                    nodeArray[i-1].path.push(nodeArray[i-1].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-1].path);
                 }
                     if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
                     nodeArray[i-15].visited = true;
                     nodeArray[i-15].distance = nodeArray[i].distance +1;
                     nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].path = nodeArray[i-15].path.concat(nodeArray[i].path);
+                    nodeArray[i-15].path = nodeArray[i].path;
+                    nodeArray[i-15].path.push(nodeArray[i-15].id);
+                    //Array.prototype.push.apply(nodeArray[i].path,nodeArray[i-15].path);
                  } 
                 }
         } 
@@ -407,7 +470,7 @@ function identifyValidTiles2(nodeArray,exitNode){
   this.isAWall = isAWall;
   this.path = path;
 };
-
+//Set all nodes with their initial values  
 function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
     var backgroundcolor = {
@@ -417,12 +480,9 @@ function assignNodeProperties(allTiles,nodeArray){
         "16":"#12bc56", "17":"#12bc42", "18":"#12bc12", "19": "#12bc1b", "20": "#1ebc12", "21": "#32bc12", 
         "22":"#45bc12", "23": "#51bc12", "24": "#64bc12", "25":"#78bc12", "26":"#8fbc12", 
         "27":"#a0bc12", "28":"#b7bc12", "29":"#bcae12", "30":"#bc9a12", "31":"#bc8612", "32":"#bc7312", 
-        "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "purple", "38":"purple",
-        "39":"purple", "40": "purple", "41":"purple", "42":"purple", "43": "purple", "44":"purple",
+        "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "#c90c0c", "38":"#ea0404",
+        "39":"#fc0505", "40": "purple", "41":"purple", "42":"purple", "43": "purple", "44":"purple",
     };
-    //If I decide to use rbg colors and iterate them mathmatically. 
-    
-//Set all nodes with their initial values   
     var path = [];
     for(i=0; i<allTiles.length; i++){
         myNode = new Node(i,backgroundcolor,0,false,false,path);
@@ -432,45 +492,29 @@ return nodeArray;
 };
 
 //display the optimum path to the exit
-function optimumPath(nodeArray){
+function optimalPath(nodeArray,exitNode,finalPath){
     for(i=0; i<nodeArray.length; i++){
         if (nodeArray[i].id == exitNode){
-            alert(nodeArray[i].path);
+           for(x=0; x<nodeArray[i].path.length; x++){
+               finalPath.push(nodeArray[i].path[x]);
+           }
         }
     }
+    return finalPath;
 };
 
-
-//Used to eliminate duplicates throughout the process
-// function eliminateDuplicates(queueForSearch) {
+// function eliminateDuplicates(finalPath) {
 //   var i,
-//       len=queueForSearch.length,
+//       len=finalPath.length,
 //       out=[],
 //       obj={};
 //   for (i=0;i<len;i++) {
-//     obj[queueForSearch[i]]=0;
+//     obj[finalPath[i]]=0;
 //   }
 //   for (i in obj) {
 //     out.push(i);
 //   }
-//   queueForSearch = out;
-//   return queueForSearch;
+//  finalPath = out;
+//  alert(finalPath.length);
+//   return finalPath;
 // };
-
-
-// //THIS CODE IS TO INITIATE A TIMER
-// var x;
-// function changeColors(){
-//     x = 1;
-//     setInterval(change, 1000);
-// }
-// function change() {
-//     if (x === 1) {
-//         color = "red";
-//         x + 1;
-//     } else {
-//         color = "green";
-//         x = 1;
-//     }
-//     document.body.style.background = color;
-// }

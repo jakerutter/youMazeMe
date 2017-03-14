@@ -30,20 +30,26 @@ body {
     text-shadow: 2px 2px white;
 }
 .mazehole {
+    font-size: 8px;
     display: inline-block;
     height: 20px;
     width: 20px;
     background-color: ghostwhite;
     margin: 1px 1px 1px 1px;
+    /*padding: 6px 0 0 0;*/
+    line-height: 20px;
+    white-space: nowrap;
 }
 .mazehole:hover {
     background-color: lightslategray;
 }
 .mazerow {
-    font-size: 0;
+    font-size: 0px;
     text-align: center;
     width: 100%;
-
+}
+.mazewrapper {
+    font-size: 0px;
 }
 .locationdisplay {
     height: 75px;
@@ -121,4 +127,8 @@ body {
 }
 .coords {
     font-family: verdana;
+}
+.htmlTextColorInMazeHoles{
+    color: red;
+    
 }

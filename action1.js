@@ -171,36 +171,24 @@ function identifyNodesNextToEntry(entryNode, nodeArray) {
     var i = entryNode;
     if (upAndDown) {
         if (entryNode < 224 && nodeArray[i + 1].visited == false) {
-            nodeArray[i + 1].visited = true;
-            nodeArray[i + 1].distance = 1;
-            nodeArray[i + 1].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i+1].id);
         }
         if (entryNode != 210 && nodeArray[i - 1].visited == false) {
-            nodeArray[i - 1].visited = true;
-            nodeArray[i - 1].distance = 1;
-            nodeArray[i - 1].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i-1].id);
         }
         if (nodeArray[i - 15].isAWall == false) {
-            nodeArray[i - 15].visited = true;
-            nodeArray[i - 15].distance = 1;
-            nodeArray[i - 15].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i-15].id);
         }
     }
     else {
         if (nodeArray[i + 15].visited == false) {
-            nodeArray[i + 15].visited = true;
-            nodeArray[i + 15].distance = 1;
-            nodeArray[i + 15].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i+15].id);
         }
         if (nodeArray[i - 15].visited == false) {
-            nodeArray[i - 15].visited = true;
-            nodeArray[i - 15].distance = 1;
-            nodeArray[i - 15].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i-15].id);
         }
         if (nodeArray[i - 1].isAWall == false) {
-            nodeArray[i - 1].visited = true;
-            nodeArray[i - 1].distance = 1;
-            nodeArray[i - 1].pointer = nodeArray[i].id;
+            progressMazeFirstMove(nodeArray,nodeArray[i].id, nodeArray[i-1].id);
         }
     }
     return nodeArray;
@@ -232,205 +220,93 @@ function identifyValidTiles(nodeArray,exitNode){
             }
             if (nodeArray[i].id == 0){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    // progressMaze(nodeArray,nodeArray[i],nodeArray[i+1]);
-                    nodeArray[i+1].visited = true;
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;        
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id);      
                 }
                 if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;      
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);     
                 }
             }
             if (nodeArray[i].id > 0 && nodeArray[i].id < 14){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;  
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id); 
                 }
                   if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;  
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);  
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-                    
-                
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id);
                 }
             }
             if (nodeArray[i].id == 14){
                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);      
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-                    
-                    
+                       progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id);                   
                 }
             }
             if (nodeArray[i].id > 0 && nodeArray[i].id < 210 && nodeArray[i].id %15 == 0){
                  if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id);  
                  }
                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);                     
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-        
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id);              
                  }
             }
             if (nodeArray[i].id > 14 && nodeArray[i].id < 224 && (nodeArray[i].id+1) %15 == 0){
                  if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;
-                
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);
                  }
                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id); 
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id); 
                  }
             }
             if (nodeArray[i].id == 210){
                  if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;                  
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id);  
                  } 
             }
             if (nodeArray[i].id > 210 && nodeArray[i].id < 224){
                 if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;                
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;
-                
-                   
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id);
                 }
                   if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id);
                 }
                 if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id);
                 }
             }
             if (nodeArray[i].id == 224){
                  if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-            
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id);
                  }
                  if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-                
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id);
                  } 
             }
                 if (nodeArray[i].id > 14 && nodeArray[i].id < 210 && nodeArray[i].id %15 != 0 && (nodeArray[i].id+1)%15 != 0){
                     if (nodeArray[i+1].isAWall == false && nodeArray[i+1].visited == false){
-                    nodeArray[i+1].visited = true;
-                    nodeArray[i+1].distance = nodeArray[i].distance +1;
-                    nodeArray[i+1].backgroundcolor = nodeArray[i+1].backgroundcolor[nodeArray[i+1].distance];
-                    nodeArray[i+1].pointer = nodeArray[i].id;
-            
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+1].id);
                 }
                     if (nodeArray[i+15].isAWall == false && nodeArray[i+15].visited == false){
-                    nodeArray[i+15].visited = true;
-                    nodeArray[i+15].distance = nodeArray[i].distance +1;
-                    nodeArray[i+15].backgroundcolor = nodeArray[i+15].backgroundcolor[nodeArray[i+15].distance];
-                    nodeArray[i+15].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i+15].id);
                  }
                     if (nodeArray[i-1].isAWall == false && nodeArray[i-1].visited == false){
-                    nodeArray[i-1].visited = true;
-                    nodeArray[i-1].distance = nodeArray[i].distance +1;
-                    nodeArray[i-1].backgroundcolor = nodeArray[i-1].backgroundcolor[nodeArray[i-1].distance];
-                    nodeArray[i-1].pointer = nodeArray[i].id;
-                    
-                    
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-1].id);              
                 }
                     if (nodeArray[i-15].isAWall == false && nodeArray[i-15].visited == false){
-                    nodeArray[i-15].visited = true;
-                    nodeArray[i-15].distance = nodeArray[i].distance +1;
-                    nodeArray[i-15].backgroundcolor = nodeArray[i-15].backgroundcolor[nodeArray[i-15].distance];
-                    nodeArray[i-15].pointer = nodeArray[i].id;
-                    
-                 } 
+                    progressMaze(nodeArray,nodeArray[i].id,nodeArray[i-15].id);
+                    } 
                 }
         } 
     }
@@ -481,9 +357,17 @@ var theOptimalPath = function() {
     }
 }
 
-// function progressMaze(nodearray,oldNode,newNode){
-// nodeArray[newNode].visited = true;
-// nodeArray[newNode].distance = nodeArray[oldNode].distance +1;
-// nodeArray[newNode].backgroundcolor = nodeArray[newNode].backgroundcolor[nodeArray[newNode].distance];
-// nodeArray[newNode].pointer = nodeArray[oldNode].id;
-// }
+function progressMaze(nodeArray,oldNode,newNode){
+    nodeArray[newNode].visited = true;
+    nodeArray[newNode].distance = nodeArray[oldNode].distance +1;
+    nodeArray[newNode].backgroundcolor = nodeArray[newNode].backgroundcolor[nodeArray[newNode].distance];
+    nodeArray[newNode].pointer = nodeArray[oldNode].id;
+        return nodeArray;
+}
+
+function progressMazeFirstMove(nodeArray,oldNode,newNode){
+    nodeArray[newNode].visited = true;
+    nodeArray[newNode].distance = 1;
+    nodeArray[newNode].pointer = nodeArray[oldNode].id;
+    return nodeArray;
+}

@@ -4,19 +4,15 @@ $('.mazehole').hover(function() {
 ($('#htmlloc').html(this.title))},
 function(){
     $('#htmlloc').html("");
-    });
+});
+//assignes each mazehole id to var isTile and pushes them into allTile
 var allTiles = [];
-
 $(".mazehole").each(function() {
     var isTile = $(this).attr('id');
-    // $("#"+isTile).style.color = "red";
      allTiles.push(isTile);
     return allTiles;    
 });
-// $(".mazehole").each(function(){
-//     var isTileHtml = $(this).attr('id');
-//    document.getElementById("#"+isTile).className = htmlTextColorInMazeHoles;
-// });
+
 var htmlString = ".";
 $(".mazehole").each(function(){
     var isTileHtml = $(this).attr('id');
@@ -38,8 +34,6 @@ populateWallTiles(nodeArray);
 createEntryAndExitNodes(upAndDown);
 var entryNode = nodesForEntryAndExit[0];
 var exitNode = nodesForEntryAndExit[1];
-$('.GoalPositionX').text("This");
-$('.GoalPositionY').text("That");
 $('.EntryPositionX').text(entryNode);
 $('.EntryPositionY').text(exitNode);
 populateEntryTile(entryNode,nodeArray);
@@ -159,7 +153,6 @@ function populateExitTile(exitNode,nodeArray){
      if (nodeArray[i].id == exitNode){
             nodeArray[i].distance = 0;
             nodeArray[i].visited = false;
-            //nodeArray[i].backgroundcolor = nodeArray[i].backgroundcolor[nodeArray[i].distance];
             document.getElementById(exitNode).style.backgroundColor = "firebrick";
      }
     }
@@ -313,8 +306,7 @@ function identifyValidTiles(nodeArray,exitNode){
 } 
     return nodeArray;
 };
-
-
+//Define Nodes
   function Node(id,backgroundcolor,distance,visited,isAWall,pointer){
   this.id = id;
   this.backgroundcolor = backgroundcolor;
@@ -355,6 +347,8 @@ var theOptimalPath = function() {
         ($('#'+nodeArray[index].id).html(nodeArray[index].distance))
         index = nodeArray[nodeArray[index].pointer].id;
     }
+    $('.GoalPositionX').text(nodeArray[exitNode].distance);
+    $('.GoalPositionY').text(nodeArray[exitNode].distance);
 }
 
 function progressMaze(nodeArray,oldNode,newNode){

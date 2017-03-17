@@ -1,8 +1,8 @@
 body {
-    background-color: lightslategrey;
+    background-color: darkslategrey;
     
 }
-.wrapper {
+/*.wrapper {
     background-color: navajowhite;
     height: 100%;
     width: 75%;
@@ -13,20 +13,20 @@ body {
 }
 .leftside {
     float: left;
-    margin: 0 auto 0 auto;
+    margin: 0 auto 0 75px;
 }
 
 .rightside {
     float: right;
     margin: 0 auto 0 auto;
 
-}
+}*/
 
 .headtitle {
     padding: 50px 0px 25px 0px;
     width: 100%;
     text-align: center;
-    color: darkslategray;
+    color: cornflowerblue;
     text-shadow: 2px 2px white;
 }
 .mazehole {
@@ -48,13 +48,14 @@ body {
     text-align: center;
     width: 100%;
 }
-.mazewrapper {
+/*.mazewrapper {
     font-size: 0px;
-}
+}*/
 .locationdisplay {
+    text-align: center;
     height: 75px;
     width: 150px;
-    background-color: ghostwhite;
+    color: ghostwhite;
     border-radius: 5px;
     margin: 10px auto 0 auto;
     padding: 1px 1px 1px 1px;
@@ -73,7 +74,7 @@ body {
     font-family: verdana;
     font-style: bold;
 }
-.GoalPositionX {
+/*.GoalPositionX {
     height: 65px;
     width: 100px;
     background-color: ghostwhite;
@@ -124,11 +125,7 @@ body {
     font-family: verdana;
     font-style: bold;
     color: cornflowerblue;
-}
+}*/
 .coords {
     font-family: verdana;
-}
-.htmlTextColorInMazeHoles{
-    color: red;
-    
 }

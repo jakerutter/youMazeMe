@@ -1,5 +1,6 @@
 body {
-    background-color: darkslategrey;
+    background-color: navajowhite;
+     /*background-color: black;*/
     
 }
 /*.wrapper {
@@ -55,7 +56,7 @@ body {
     text-align: center;
     height: 75px;
     width: 150px;
-    color: ghostwhite;
+    color: cornflowerblue;
     border-radius: 5px;
     margin: 10px auto 0 auto;
     padding: 1px 1px 1px 1px;

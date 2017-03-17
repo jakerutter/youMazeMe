@@ -34,8 +34,8 @@ populateWallTiles(nodeArray);
 createEntryAndExitNodes(upAndDown);
 var entryNode = nodesForEntryAndExit[0];
 var exitNode = nodesForEntryAndExit[1];
-$('.EntryPositionX').text(entryNode);
-$('.EntryPositionY').text(exitNode);
+// $('.EntryPositionX').text(entryNode);
+// $('.EntryPositionY').text(exitNode);
 populateEntryTile(entryNode,nodeArray);
 populateExitTile(exitNode,nodeArray);
 identifyNodesNextToEntry(entryNode,nodeArray);
@@ -336,20 +336,6 @@ function assignNodeProperties(allTiles,nodeArray){
 return nodeArray;
 };
 
-//retrieve optimal node that reaches the exit
-var theOptimalPath = function() {
-    var optimalPathArray = [];
-    var index = exitNode;
-    while (index != entryNode) {
-        optimalPathArray.push(nodeArray[index].pointer);
-        nodeArray[index].backgroundcolor = "#FF0000";
-        document.getElementById(nodeArray[index].id).style.backgroundColor = nodeArray[index].backgroundcolor;
-        ($('#'+nodeArray[index].id).html(nodeArray[index].distance))
-        index = nodeArray[nodeArray[index].pointer].id;
-    }
-    $('.GoalPositionX').text(nodeArray[exitNode].distance);
-    $('.GoalPositionY').text(nodeArray[exitNode].distance);
-}
 
 function progressMaze(nodeArray,oldNode,newNode){
     nodeArray[newNode].visited = true;
@@ -364,4 +350,24 @@ function progressMazeFirstMove(nodeArray,oldNode,newNode){
     nodeArray[newNode].distance = 1;
     nodeArray[newNode].pointer = nodeArray[oldNode].id;
     return nodeArray;
+}
+//works in opposite direction desired
+//retrieve optimal node that reaches the exit and color that path, show distance
+var theOptimalPath = function() {
+    var optimalPathArray = [];
+    var index = exitNode;
+    while (index != entryNode) {
+        var timerId2 = setInterval(function () { 
+    populateTheOptimalPath(optimalPathArray) 
+}, 100);
+    function populateTheOptimalPath(optimalPathArray) {
+        optimalPathArray.push(nodeArray[index].pointer);
+        nodeArray[index].backgroundcolor = "#FF0000";
+        document.getElementById(nodeArray[index].id).style.backgroundColor = nodeArray[index].backgroundcolor;
+        ($('#'+nodeArray[index].id).html(nodeArray[index].distance));
+        index = nodeArray[nodeArray[index].pointer].id;  
+    }
+     return index;
+}
+clearInterval(timerId2);
 }

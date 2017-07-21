@@ -1,3 +1,5 @@
+//https://github.com/jakerutter/youMazeMe
+
 //Global Variables
 var upAndDown = "";  
 var wallNodes = [];
@@ -11,6 +13,7 @@ var timerId;
 var allTiles = [];
 var maxRow;
 var maxColumn;
+var isComplete;
 
 // Colors the Node gray when it is hovered over.
 $('.mazehole').hover(function() {
@@ -22,8 +25,22 @@ function(){
 
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
-rowsAndColumns.on("change", function (dropdown) {
-    var userChoice = $("#numOfRows").val();
+function startMaze() {
+    if (isComplete) {
+         isComplete = false;
+         var cookieValue = "#numOfRows";
+        localStorage.setItem("cookieValue", cookieValue);
+        window.location.reload();
+       
+    }
+    //  var getCookie = localStorage.getItem("cookieValue");
+    //  if (getCookie != null){
+    //      var userChoice = getCookie; //broken right here on this paragraph
+    //  }
+    //  else{
+    // var userChoice = $("#numOfRows").val();
+    //  }
+        var userChoice = $("#numOfRows").val();
     // var userChoice = e.options[e.selectedIndex].text;
     maxRow = Number(userChoice);
     maxColumn = Number(userChoice);
@@ -36,7 +53,7 @@ rowsAndColumns.on("change", function (dropdown) {
     prepMaze(nodeArray);
     runMazePhase1(nodeArray);
     runMazePhase2(nodeArray);
-});
+};
 
 
 
@@ -374,7 +391,7 @@ function populateValidTiles2(nodeArray, exitNode) {
 };
 
 //retrieve optimal node that reaches the exit and color that path, show distance
-var theOptimalPath = function() {
+function theOptimalPath() {
     var optimalPathArray = [];
     var index = exitNode; 
     while (index != entryNode) {
@@ -393,7 +410,7 @@ var theOptimalPath = function() {
         return index;
         }
    }
-
+    isComplete = true;
     return index;
     }
 clearInterval(timerId2);

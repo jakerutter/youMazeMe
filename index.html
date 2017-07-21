@@ -2,17 +2,19 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<script type ="text/javascript" src="experimentalaction.js"></script>
 <script src="jquery-3.1.1.js"></script>
 <title>Maze</title>
 </head>
 <body style= "text-align: center";>
     
 <h1 class= "headtitle">You 'Maze Me</h1>
-    <div class="userRowSelection">
-        <!--<h2>Change Event</h2>-->
+
+    <div class="subNavSelections">
+
          # of Rows
         <select id="numOfRows">
-            <option selected>Select one</option>
+            <option selected>Select</option>
             <option>10</option>
             <option>15</option>
             <option>20</option>
@@ -23,11 +25,18 @@
         </select>
         <p id="selectionMessage"></p>
     </div>
+    <div class="subNavSelections subNavSpacer"></div>
+
+    <button id=startButton class="subNavSelections" onclick="startMaze()">
+        START
+        </button>
+
 <div class="maze-wrapper" id="mazeWrapper"></div>
+
 <!--<div class = "locationdisplay" id = "locationdisplay"><p id = ".coords">That Location Is:</p>
 <div id = "htmlloc" div class = "htmlloc"></div>-->
 
 
-<script type ="text/javascript" src="experimentalaction.js"></script>
+
 </body>
 </html>

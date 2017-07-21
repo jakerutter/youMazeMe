@@ -44,6 +44,20 @@ body {
     text-align: center;
     width: 100%;
 }
+
+.subNavSelections {
+    display: inline-block;
+}
+
+.subNavSpacer {
+    width: 20px;
+}
+
+#startButton {
+    border-radius: 25px;
+    background-color: #ffffff;
+    color: cornflowerblue;
+}
 /*
 .locationdisplay {
     text-align: center;

@@ -368,7 +368,8 @@ function progressMazeFirstMove(nodeArray,oldNode,newNode){
 function progressMaze(nodeArray,oldNode,newNode){
     nodeArray[newNode].visited = true;
     nodeArray[newNode].distance = nodeArray[oldNode].distance +1;
-    nodeArray[newNode].backgroundcolor = nodeArray[newNode].backgroundcolor[nodeArray[newNode].distance];
+    // nodeArray[newNode].backgroundcolor = nodeArray[newNode].backgroundcolor[nodeArray[newNode].distance];
+    nodeArray[newNode].backgroundcolor = Maze.getBackgroundColor(nodeArray[newNode].distance);
     nodeArray[newNode].pointer = nodeArray[oldNode].id;
         return nodeArray;
 }

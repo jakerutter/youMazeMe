@@ -29,34 +29,37 @@ var Maze = (function (maze, undefined) {
     var GMask = 0x00FF00;
     var BMask = 0x0000FF;
 
-    this.startColor = 0x0000FF;
-    this.stopColors = [];
+    this.colorStops = [];
     this.maxDepth;
 
-    this.setColorStart = function (rgbValue) {
-      _self.startColor = rgbValue;
-    }
     this.setMaxDepth = function (MaxDepth) {
       _self.maxDepth = MaxDepth;
     }
     this.addColorStop = function (rgbValue) {
-      _self.stopColors.push(rgbValue);
+      _self.colorStops.push(rgbValue);
     }
     this.getColorAt = function(currentDepth) {
-      var RDiff = (RMask & (_self.stopColors[0])) - (RMask & (_self.startColor));
-      var GDiff = (GMask & (_self.stopColors[0])) - (GMask & (_self.startColor));
-      var BDiff = (BMask & (_self.stopColors[0])) - (BMask & (_self.startColor));
+      var ratio = ((currentDepth / _self.maxDepth) % 1);
+      var step = (1 + Math.floor(ratio * (_self.colorStops.length - 1)));
 
-      var colorRValue = Math.round(RMask & (_self.startColor + (currentDepth / _self.maxDepth) * (RDiff)));
-      var colorGValue = Math.round(GMask & (_self.startColor + (currentDepth / _self.maxDepth) * (GDiff)));
-      var colorBValue = Math.round(BMask & (_self.startColor + (currentDepth / _self.maxDepth) * (BDiff)));
+      var RDiff = (RMask & (_self.colorStops[step])) - (RMask & (_self.colorStops[step - 1]));
+      var GDiff = (GMask & (_self.colorStops[step])) - (GMask & (_self.colorStops[step - 1]));
+      var BDiff = (BMask & (_self.colorStops[step])) - (BMask & (_self.colorStops[step - 1]));
+
+      var stepFactor = (_self.colorStops.length - 1)*ratio - (step - 1);
+      var colorRValue = Math.floor(RMask & (_self.colorStops[step - 1] + stepFactor * (RDiff)));
+      var colorGValue = Math.floor(GMask & (_self.colorStops[step - 1] + stepFactor * (GDiff)));
+      var colorBValue = Math.floor(BMask & (_self.colorStops[step - 1] + stepFactor * (BDiff)));
 
       return colorRValue + colorGValue + colorBValue;
     }
   };
-  maze.gradient.setColorStart(0x0000FF);
+  maze.gradient.addColorStop(0x0000FF);
+  maze.gradient.addColorStop(0x00FFFF);
+  maze.gradient.addColorStop(0x00FF00);
   maze.gradient.addColorStop(0xFF0000);
-  maze.gradient.setMaxDepth(Math.round(Math.sqrt(maze.maxRow*maze.maxRow * maze.maxColumn*maze.maxColumn))/4);
+  maze.gradient.addColorStop(0x0000FF);
+  maze.gradient.setMaxDepth(maze.maxRow + maze.maxColumn);
 
   maze.getBackgroundColor = function (currentDepth) {
     var colorValue = maze.gradient.getColorAt(currentDepth);

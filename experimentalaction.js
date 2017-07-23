@@ -44,6 +44,8 @@ function startMaze() {
     // var userChoice = e.options[e.selectedIndex].text;
     maxRow = Number(userChoice);
     maxColumn = Number(userChoice);
+    Maze.gradient.setMaxDepth(maxRow + maxColumn);
+    
     createDivs(maxRow);
     var htmlString = ".";
     $(".mazehole").each(function(){

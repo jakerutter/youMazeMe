@@ -19,10 +19,8 @@ var Maze = (function (maze, undefined) {
 
   };
 
-  maze.pad = function (num, padSize) {
-    return ("0" + num).slice(-padSize);
-  }
-
+  // Singleton that allows a gradient field to be dynamically crated
+  // Minimally Required: maxdepth, 2 colorStops
   maze.gradient = new function () {
     var _self = this;
     var RMask = 0xFF0000;
@@ -44,6 +42,8 @@ var Maze = (function (maze, undefined) {
       }
     };
 
+    // Gets color at specific depth: currentDepth
+    // Allows for overflow and repeats the gradient if necessary
     this.getColorAt = function(currentDepth) {
       var ratio = ((currentDepth / _self.maxDepth) % 1);
       var step = (1 + Math.floor(ratio * (_self.colorStops.length - 1)));

@@ -34,10 +34,16 @@ var Maze = (function (maze, undefined) {
 
     this.setMaxDepth = function (MaxDepth) {
       _self.maxDepth = MaxDepth;
-    }
+    };
     this.addColorStop = function (rgbValue) {
       _self.colorStops.push(rgbValue);
-    }
+    };
+    this.addColorStops = function (rgbValues) {
+      for (var i=0; i < rgbValues.length; i ++) {
+        _self.colorStops.push(rgbValues[i]);
+      }
+    };
+
     this.getColorAt = function(currentDepth) {
       var ratio = ((currentDepth / _self.maxDepth) % 1);
       var step = (1 + Math.floor(ratio * (_self.colorStops.length - 1)));
@@ -52,14 +58,8 @@ var Maze = (function (maze, undefined) {
       var colorBValue = Math.floor(BMask & (_self.colorStops[step - 1] + stepFactor * (BDiff)));
 
       return colorRValue + colorGValue + colorBValue;
-    }
+    };
   };
-  maze.gradient.addColorStop(0x0000FF);
-  maze.gradient.addColorStop(0x00FFFF);
-  maze.gradient.addColorStop(0x00FF00);
-  maze.gradient.addColorStop(0xFF0000);
-  maze.gradient.addColorStop(0x0000FF);
-  maze.gradient.setMaxDepth(maze.maxRow + maze.maxColumn);
 
   maze.getBackgroundColor = function (currentDepth) {
     var colorValue = maze.gradient.getColorAt(currentDepth);
@@ -67,7 +67,8 @@ var Maze = (function (maze, undefined) {
   };
 
   maze.onLoad = function () {
-    
+    maze.gradient.addColorStops( [0x0000FF, 0x00FFFF, 0x00FF00, 0xFF0000, 0x0000FF] );
+    maze.gradient.setMaxDepth(maze.maxRow + maze.maxColumn);
   }; 
 
   return maze;

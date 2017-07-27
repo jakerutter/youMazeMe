@@ -63,30 +63,32 @@ function reloadScreenandRun(){
         // var sizeChosen = sessionStorage.getItem('size');
 
 //Delete the divs from the previous maze and reset values
-function deleteDivs(){
+function deleteDivs() {
     document.getElementsByClassName("mazehole").remove();
-upAndDown = undefined;  
-wallNodes.length = 0;
-nodeArray.length = 0;
-nodesForEntryAndExit.length = 0;
-entryNode = undefined;
-exitNode = undefined;
-colordepth = undefined;
-tID = undefined;
-timerId = undefined;
-timerId2 = undefined;
-allTiles.length = 0;
-maxRow = undefined;
-maxColumn = undefined;
-isComplete = undefined;
-userChoice = undefined;
-rowsAndColumns = undefined;
-i = undefined;
-index = undefined;
-x = undefined;
-isTile = undefined;
-Orientation = undefined;
-myNode = undefined;
+    upAndDown = undefined;
+    wallNodes.length = 0;
+    nodeArray.length = 0;
+    nodesForEntryAndExit.length = 0;
+    entryNode = undefined;
+    exitNode = undefined;
+    colordepth = undefined;
+    tID = undefined;
+    clearInterval(timerId);
+    clearInterval(timerId2);
+    timerId = undefined;
+    timerId2 = undefined;
+    allTiles.length = 0;
+    maxRow = undefined;
+    maxColumn = undefined;
+    isComplete = undefined;
+    userChoice = undefined;
+    rowsAndColumns = undefined;
+    i = undefined;
+    index = undefined;
+    x = undefined;
+    isTile = undefined;
+    Orientation = undefined;
+    myNode = undefined;
 }
 
 //Helper function for deleting elements by class name
@@ -127,25 +129,25 @@ function prepMaze(nodeArray){
   return nodeArray;
 }
 //Set up Entry and Exit and Populate them
-function runMazePhase1(nodeArray){
-createEntryAndExitNodes(upAndDown);
-entryNode = nodesForEntryAndExit[0];
-exitNode = nodesForEntryAndExit[1];
-populateEntryTile(entryNode,nodeArray);
-populateExitTile(exitNode,nodeArray);
-return nodeArray;
+function runMazePhase1(nodeArray) {
+    createEntryAndExitNodes(upAndDown);
+    entryNode = nodesForEntryAndExit[0];
+    exitNode = nodesForEntryAndExit[1];
+    populateEntryTile(entryNode, nodeArray);
+    populateExitTile(exitNode, nodeArray);
+    return nodeArray;
 };
 //BFS Search and Populate Maze
-function runMazePhase2(nodeArray){
-identifyNodesNextToEntry(entryNode,nodeArray);
-tID = setTimeout(populateNodesNextToEntry,50,nodeArray);
-identifyValidTiles(nodeArray,exitNode);
-colordepth = 2;
-//Timer that delays the populating of nodes for the search
-timerId = setInterval(function () { 
-    populateValidTiles2(nodeArray, exitNode) 
-}, 50);
-return nodeArray;
+function runMazePhase2(nodeArray) {
+    identifyNodesNextToEntry(entryNode, nodeArray);
+    tID = setTimeout(populateNodesNextToEntry, 50, nodeArray);
+    identifyValidTiles(nodeArray, exitNode);
+    colordepth = 2;
+    //Timer that delays the populating of nodes for the search
+    timerId = setInterval(function () {
+        populateValidTiles2(nodeArray, exitNode)
+    }, 50);
+    return nodeArray;
 };
 
 // //assignes each mazehole id to var isTile and pushes them into allTile

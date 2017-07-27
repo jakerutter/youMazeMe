@@ -26,22 +26,13 @@ function(){
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
+    sessionStorage.setItem('size', $("#numOfRows").val());
     if (isComplete) {
-         isComplete = false;
-         var cookieValue = "#numOfRows";
-        localStorage.setItem("cookieValue", cookieValue);
-        window.location.reload();
-       
+
+        reloadScreenandRun();
     }
-    //  var getCookie = localStorage.getItem("cookieValue");
-    //  if (getCookie != null){
-    //      var userChoice = getCookie; //broken right here on this paragraph
-    //  }
-    //  else{
-    // var userChoice = $("#numOfRows").val();
-    //  }
-        var userChoice = $("#numOfRows").val();
-    // var userChoice = e.options[e.selectedIndex].text;
+    var userChoice = $("#numOfRows").val();
+   
     maxRow = Number(userChoice);
     maxColumn = Number(userChoice);
     Maze.gradient.setMaxDepth(maxRow + maxColumn);
@@ -63,6 +54,50 @@ function startMaze() {
 
 
 //FUNCTIONS BELOW
+
+//If Maze is completed when Start is pressed, we want to Reload and ReRun
+function reloadScreenandRun(){
+    deleteDivs();
+    
+}
+        // var sizeChosen = sessionStorage.getItem('size');
+
+//Delete the divs from the previous maze and reset values
+function deleteDivs(){
+    document.getElementsByClassName("mazehole").remove();
+upAndDown = undefined;  
+wallNodes.length = 0;
+nodeArray.length = 0;
+nodesForEntryAndExit.length = 0;
+entryNode = undefined;
+exitNode = undefined;
+colordepth = undefined;
+tID = undefined;
+timerId = undefined;
+timerId2 = undefined;
+allTiles.length = 0;
+maxRow = undefined;
+maxColumn = undefined;
+isComplete = undefined;
+userChoice = undefined;
+rowsAndColumns = undefined;
+i = undefined;
+index = undefined;
+x = undefined;
+isTile = undefined;
+Orientation = undefined;
+myNode = undefined;
+}
+
+//Helper function for deleting elements by class name
+    NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
 //Creates the divs based on maxRow and maxColumn
 function createDivs(maxRow) {
   var wrapperDiv = document.getElementById("mazeWrapper");
@@ -133,16 +168,16 @@ function determineMazeOrientation(x){
 };
 //Function to Create the Location for Entry & Exit nodes
 function createEntryAndExitNodes(x){
-    var entryNode = 0;
+     entryNode = 0;
    if (x)
     {
-        var entryNode = Math.floor((Math.random() *((maxRow*maxRow-1)-(maxRow*maxRow-maxRow))) + (maxRow*maxRow-maxRow));
-        var exitNode = Math.floor(Math.random()*(maxRow-0));  
+        entryNode = Math.floor((Math.random() *((maxRow*maxRow-1)-(maxRow*maxRow-maxRow))) + (maxRow*maxRow-maxRow));
+        exitNode = Math.floor(Math.random()*(maxRow-0));  
     }
   else {
     while (entryNode <= 0 || entryNode == maxRow-1){
-        var entryNode = (Math.floor(Math.random()*((maxRow-1)-0)))*maxRow-1;}
-        var exitNode = (Math.floor(Math.random()*((maxRow-2)-0)))*maxRow;
+        entryNode = (Math.floor(Math.random()*((maxRow-1)-0)))*maxRow-1;}
+        exitNode = (Math.floor(Math.random()*((maxRow-2)-0)))*maxRow;
 };
   nodesForEntryAndExit.push(entryNode);
   nodesForEntryAndExit.push(exitNode);
@@ -396,12 +431,21 @@ function populateValidTiles2(nodeArray, exitNode) {
 //retrieve optimal node that reaches the exit and color that path, show distance
 function theOptimalPath() {
     var optimalPathArray = [];
+    optimalPathArray.length = 0;
     var index = exitNode; 
     while (index != entryNode) {
-        var timerId2 = setInterval(function () { 
+         timerId2 = setInterval(function () { 
     populateTheOptimalPath(optimalPathArray) 
 }, 100); 
-    function populateTheOptimalPath(optimalPathArray) {
+    
+    isComplete = true;
+    return index;
+    }
+clearInterval(timerId2);
+}
+
+//Populate optimal path
+function populateTheOptimalPath(optimalPathArray) {
         if (index == entryNode){
         }
         else {
@@ -413,11 +457,6 @@ function theOptimalPath() {
         return index;
         }
    }
-    isComplete = true;
-    return index;
-    }
-clearInterval(timerId2);
-}
 
 //Define Nodes
   function Node(id,backgroundcolor,distance,visited,isAWall,pointer){
@@ -433,25 +472,26 @@ clearInterval(timerId2);
 function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
     var backgroundcolor = {
-        "0": "green", "1": "#1e12bc", "2": "#1218bc", "3": "#1229bc", "4": "#123abc",
-        "5": "#124ebc", "6": "#1262bc", "7":"#1275bc", "8": "#1286bc", "9":"#129abc", "10":"#12aebc",
-        "11":"#12bcb7", "12":"#12bca3", "13":"#12bc8f", "14":"#12bc7b", "15":"#12bc6a",
-        "16":"#12bc56", "17":"#12bc42", "18":"#12bc12", "19": "#12bc1b", "20": "#1ebc12", "21": "#32bc12", 
-        "22":"#45bc12", "23": "#51bc12", "24": "#64bc12", "25":"#78bc12", "26":"#8fbc12", 
-        "27":"#a0bc12", "28":"#b7bc12", "29":"#bcae12", "30":"#bc9a12", "31":"#bc8612", "32":"#bc7312", 
-        "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "#c90c0c", "38":"#ea0404",
-        "39":"#fc0505", "40": "#ef0000", "41":"#f90000", "42":"#ff0000", "43":"#e20b38", "44":"#e20b6f",
-        "45":"#e20ba9", "46":"#d70b32", "47":"#a50be2", "48":"#850be2", "49":"#410be2", "50":"#1e12bc",
-        "51":"#1218bc", "52":"#1229bc", "53":"#123abc", "54":"#124ebc", "55":"#1262bc", "56":"#1275bc",
-        "57": "#1286bc", "58":"#129abc", "59":"#12aebc", "60":"#12bcb7", "61":"#12bca3", "62":"#12bc8f", 
-        "63":"#12bc7b", "64":"#12bc6a",  "65":"#12bc56", "66":"#12bc42", "67":"#12bc12", "68": "#12bc1b", 
-        "69": "#1ebc12", "70": "#32bc12", "71":"#45bc12", "72": "#51bc12", "73": "#64bc12", "74":"#78bc12",
-        "75":"#8fbc12", "76":"#a0bc12", "77":"#b7bc12", "78":"#bcae12", "79":"#bc9a12", "80":"#bc8612", "81":"#bc7312",
-        "82":"#bc5f12", "83": "#bc5112", "84":"#bc4212", "85":"#bc3412", "86": "#c90c0c", "87":"#ea0404",
-        "88":"#fc0505", "89": "#ef0000", "90":"#f90000", "91":"#ff0000", "92":"#e20b38", "93":"#e20b6f",
-        "94":"#e20ba9", "95":"#d70b32", "96":"#a50be2", "97":"#850be2", "98":"#410be2", "99":"#1e12bc",
+        "0": "green", "1": "#1e12bc"
+        // "2": "#1218bc", "3": "#1229bc", "4": "#123abc",
+        // "5": "#124ebc", "6": "#1262bc", "7":"#1275bc", "8": "#1286bc", "9":"#129abc", "10":"#12aebc",
+        // "11":"#12bcb7", "12":"#12bca3", "13":"#12bc8f", "14":"#12bc7b", "15":"#12bc6a",
+        // "16":"#12bc56", "17":"#12bc42", "18":"#12bc12", "19": "#12bc1b", "20": "#1ebc12", "21": "#32bc12", 
+        // "22":"#45bc12", "23": "#51bc12", "24": "#64bc12", "25":"#78bc12", "26":"#8fbc12", 
+        // "27":"#a0bc12", "28":"#b7bc12", "29":"#bcae12", "30":"#bc9a12", "31":"#bc8612", "32":"#bc7312", 
+        // "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "#c90c0c", "38":"#ea0404",
+        // "39":"#fc0505", "40": "#ef0000", "41":"#f90000", "42":"#ff0000", "43":"#e20b38", "44":"#e20b6f",
+        // "45":"#e20ba9", "46":"#d70b32", "47":"#a50be2", "48":"#850be2", "49":"#410be2", "50":"#1e12bc",
+        // "51":"#1218bc", "52":"#1229bc", "53":"#123abc", "54":"#124ebc", "55":"#1262bc", "56":"#1275bc",
+        // "57": "#1286bc", "58":"#129abc", "59":"#12aebc", "60":"#12bcb7", "61":"#12bca3", "62":"#12bc8f", 
+        // "63":"#12bc7b", "64":"#12bc6a",  "65":"#12bc56", "66":"#12bc42", "67":"#12bc12", "68": "#12bc1b", 
+        // "69": "#1ebc12", "70": "#32bc12", "71":"#45bc12", "72": "#51bc12", "73": "#64bc12", "74":"#78bc12",
+        // "75":"#8fbc12", "76":"#a0bc12", "77":"#b7bc12", "78":"#bcae12", "79":"#bc9a12", "80":"#bc8612", "81":"#bc7312",
+        // "82":"#bc5f12", "83": "#bc5112", "84":"#bc4212", "85":"#bc3412", "86": "#c90c0c", "87":"#ea0404",
+        // "88":"#fc0505", "89": "#ef0000", "90":"#f90000", "91":"#ff0000", "92":"#e20b38", "93":"#e20b6f",
+        // "94":"#e20ba9", "95":"#d70b32", "96":"#a50be2", "97":"#850be2", "98":"#410be2", "99":"#1e12bc",
     };
-    // var path = [];
+  
     for(i=0; i<allTiles.length; i++){
         myNode = new Node(i,backgroundcolor,0,false,false,-1);
             nodeArray.push(myNode);

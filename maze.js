@@ -1,5 +1,5 @@
 var Maze = (function (maze, undefined) {
-  // maze is the locall scoped variable of Maze
+  // maze is the local scoped variable of Maze
 
   maze.upAndDown = "";  
   maze.wallNodes = [];

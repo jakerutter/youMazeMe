@@ -10,6 +10,7 @@ var exitNode;
 var colordepth;
 var tID;
 var timerId;
+var timerId2;
 var allTiles = [];
 var maxRow;
 var maxColumn;

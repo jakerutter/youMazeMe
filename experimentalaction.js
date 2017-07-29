@@ -14,6 +14,8 @@ var allTiles = [];
 var maxRow;
 var maxColumn;
 var isComplete;
+var mazesWatchedCounter = 0;
+var mazeStepsCounter = 0;
 
 // Colors the Node gray when it is hovered over.
 $('.mazehole').hover(function() {
@@ -22,14 +24,18 @@ function(){
     $('#htmlloc').html("");
 });
 
-
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
-    sessionStorage.setItem('size', $("#numOfRows").val());
-    if (isComplete) {
-
-        reloadScreenandRun();
+    if ($("#numOfRows").val() != "Select") {
+     mazesWatchedCounter += 1;
+    TrackMazesWatched(mazesWatchedCounter);
+    }
+else{ return;}
+    if (isComplete) { 
+        reInitMaze();
+        mazeStepsCounter = 0;
+        TrackMazeStepsToEntry(mazeStepsCounter);
     }
     var userChoice = $("#numOfRows").val();
    
@@ -49,21 +55,10 @@ function startMaze() {
 };
 
 
-
-
-
-
 //FUNCTIONS BELOW
 
-//If Maze is completed when Start is pressed, we want to Reload and ReRun
-function reloadScreenandRun(){
-    deleteDivs();
-    
-}
-        // var sizeChosen = sessionStorage.getItem('size');
-
 //Delete the divs from the previous maze and reset values
-function deleteDivs() {
+function reInitMaze() {
     document.getElementsByClassName("mazehole").remove();
     upAndDown = undefined;
     wallNodes.length = 0;
@@ -89,9 +84,10 @@ function deleteDivs() {
     isTile = undefined;
     Orientation = undefined;
     myNode = undefined;
+    mazeStepsCounter = 0;
 }
 
-//Helper function for deleting elements by class name
+//Helper function for deleting elements by class name -- used by reInitMaze()
     NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
     for(var i = this.length - 1; i >= 0; i--) {
         if(this[i] && this[i].parentElement) {
@@ -118,27 +114,34 @@ function createDivs(maxRow) {
     }
   }
 }
+
 //Set up the maze Orientation and Walls
 function prepMaze(nodeArray){
+
   assignAllNodeIdsToAllTilesArray();
   determineMazeOrientation(upAndDown);
   assignNodeProperties(allTiles,nodeArray);
-  
   generateWallTiles(upAndDown,nodeArray,wallNodes);
   populateWallTiles(nodeArray);
+
   return nodeArray;
 }
+
 //Set up Entry and Exit and Populate them
 function runMazePhase1(nodeArray) {
+
     createEntryAndExitNodes(upAndDown);
     entryNode = nodesForEntryAndExit[0];
     exitNode = nodesForEntryAndExit[1];
     populateEntryTile(entryNode, nodeArray);
     populateExitTile(exitNode, nodeArray);
+
     return nodeArray;
 };
+
 //BFS Search and Populate Maze
 function runMazePhase2(nodeArray) {
+
     identifyNodesNextToEntry(entryNode, nodeArray);
     tID = setTimeout(populateNodesNextToEntry, 50, nodeArray);
     identifyValidTiles(nodeArray, exitNode);
@@ -147,19 +150,24 @@ function runMazePhase2(nodeArray) {
     timerId = setInterval(function () {
         populateValidTiles2(nodeArray, exitNode)
     }, 50);
+
     return nodeArray;
 };
 
 // //assignes each mazehole id to var isTile and pushes them into allTile
 function assignAllNodeIdsToAllTilesArray(){
+
   $(".mazehole").each(function() {
     var isTile = $(this).attr('id');
      allTiles.push(isTile);
+
     return allTiles;    
 });
 };
+
 //Function determines the orientation of the maze (Vertical or Horizontal)
 function determineMazeOrientation(x){
+    
     var Orientation = Math.floor(Math.random()*2);
     if (Orientation >= 1)
     { upAndDown = true;
@@ -168,6 +176,7 @@ function determineMazeOrientation(x){
     { upAndDown = false;
     return upAndDown;}
 };
+
 //Function to Create the Location for Entry & Exit nodes
 function createEntryAndExitNodes(x){
      entryNode = 0;
@@ -185,6 +194,7 @@ function createEntryAndExitNodes(x){
   nodesForEntryAndExit.push(exitNode);
   return (nodesForEntryAndExit);
 };
+
 //Function to generate Wall Tiles
 function generateWallTiles(upAndDown,nodeArray,wallNodes){
     while (wallNodes.length<(maxRow*maxRow/3.4)){
@@ -439,7 +449,8 @@ function theOptimalPath() {
          timerId2 = setInterval(function () { 
     populateTheOptimalPath(optimalPathArray) 
 }, 100); 
-    
+    mazeStepsCounter = nodeArray[index].distance;
+    TrackMazeStepsToEntry(mazeStepsCounter);
     isComplete = true;
     return index;
     }
@@ -502,6 +513,24 @@ return nodeArray;
 };
 
 
+//Adding Stat Tracking Functionality below// 
 
+//How many times the Maze is ran
+function TrackMazesWatched(mazesWatchedCounter){
+var span = document.getElementById('mazesWatched');
+while(span.firstChild) {
+    span.removeChild(span.firstChild);
+}
+span.appendChild(document.createTextNode(mazesWatchedCounter.toString()) );
 
+}
 
+//How many steps it took the maze to reach Entry Node
+function TrackMazeStepsToEntry(mazeStepsCounter){
+var span = document.getElementById('stepsToEntry');
+while(span.firstChild) {
+    span.removeChild(span.firstChild);
+}
+span.appendChild(document.createTextNode(mazeStepsCounter.toString()) );
+
+}

@@ -16,6 +16,7 @@ var maxColumn;
 var isComplete;
 var mazesWatchedCounter = 0;
 var mazeStepsCounter = 0;
+var mazeHasBegun = false;
 
 // Colors the Node gray when it is hovered over.
 $('.mazehole').hover(function() {
@@ -27,6 +28,12 @@ function(){
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
+    if (mazeHasBegun){
+        reInitMaze();
+        mazeHasBegun = false;
+
+    }
+    mazeHasBegun = true;
     if ($("#numOfRows").val() != "Select") {
      mazesWatchedCounter += 1;
     TrackMazesWatched(mazesWatchedCounter);
@@ -451,6 +458,7 @@ function theOptimalPath() {
 }, 100); 
     mazeStepsCounter = nodeArray[index].distance;
     TrackMazeStepsToEntry(mazeStepsCounter);
+    mazeHasBegun = false;
     isComplete = true;
     return index;
     }

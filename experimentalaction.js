@@ -10,7 +10,6 @@ var exitNode;
 var colordepth;
 var tID;
 var timerId;
-var timerId2;
 var allTiles = [];
 var maxRow;
 var maxColumn;
@@ -29,11 +28,13 @@ function(){
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
+    if ($("#numOfRows").val() === "Select"){
+        return;}
     if (mazeHasBegun){
         reInitMaze();
         mazeHasBegun = false;
-
     }
+
     mazeHasBegun = true;
     if ($("#numOfRows").val() != "Select") {
      mazesWatchedCounter += 1;
@@ -77,7 +78,7 @@ function reInitMaze() {
     colordepth = undefined;
     tID = undefined;
     clearInterval(timerId);
-    clearInterval(timerId2);
+    // clearInterval(timerId2);
     timerId = undefined;
     timerId2 = undefined;
     allTiles.length = 0;
@@ -127,7 +128,7 @@ function createDivs(maxRow) {
 function prepMaze(nodeArray){
 
   assignAllNodeIdsToAllTilesArray();
-  determineMazeOrientation(upAndDown);
+  determineMazeOrientation();
   assignNodeProperties(allTiles,nodeArray);
   generateWallTiles(upAndDown,nodeArray,wallNodes);
   populateWallTiles(nodeArray);
@@ -149,15 +150,16 @@ function runMazePhase1(nodeArray) {
 
 //BFS Search and Populate Maze
 function runMazePhase2(nodeArray) {
-
+    var searchSpeed = $("#searchSpeed").val();
+    searchSpeed = Number(searchSpeed);
     identifyNodesNextToEntry(entryNode, nodeArray);
-    tID = setTimeout(populateNodesNextToEntry, 50, nodeArray);
+    tID = setTimeout(populateNodesNextToEntry, searchSpeed, nodeArray);
     identifyValidTiles(nodeArray, exitNode);
     colordepth = 2;
     //Timer that delays the populating of nodes for the search
     timerId = setInterval(function () {
         populateValidTiles2(nodeArray, exitNode)
-    }, 50);
+    }, searchSpeed);
 
     return nodeArray;
 };
@@ -174,7 +176,7 @@ function assignAllNodeIdsToAllTilesArray(){
 };
 
 //Function determines the orientation of the maze (Vertical or Horizontal)
-function determineMazeOrientation(x){
+function determineMazeOrientation(){
     
     var Orientation = Math.floor(Math.random()*2);
     if (Orientation >= 1)
@@ -205,7 +207,9 @@ function createEntryAndExitNodes(x){
 
 //Function to generate Wall Tiles
 function generateWallTiles(upAndDown,nodeArray,wallNodes){
-    while (wallNodes.length<(maxRow*maxRow/3.4)){
+    var wallDensity = $('#wallDensity').val();
+    wallDensity = Number(wallDensity);
+    while (wallNodes.length<(maxRow*maxRow*wallDensity)){
     if (!upAndDown){
         isWall  = (Math.floor(Math.random()*((maxRow*maxRow-1)-0+1))+0);
         while ((isWall % maxRow == 0) || ((isWall-(maxRow-1))%maxRow == 0) || (isWall == maxRow-1)){
@@ -450,13 +454,15 @@ function populateValidTiles2(nodeArray, exitNode) {
 
 //retrieve optimal node that reaches the exit and color that path, show distance
 function theOptimalPath() {
+    var searchSpeed = $("#searchSpeed").val();
+    searchSpeed = Number(searchSpeed);
     var optimalPathArray = [];
     optimalPathArray.length = 0;
     var index = exitNode; 
     while (index != entryNode) {
          timerId2 = setInterval(function () { 
     populateTheOptimalPath(optimalPathArray) 
-}, 100); 
+}, searchSpeed); 
     mazeStepsCounter = nodeArray[index].distance;
     TrackMazeStepsToEntry(mazeStepsCounter);
     mazeHasBegun = false;

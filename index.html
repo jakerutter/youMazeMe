@@ -15,33 +15,60 @@
 
          # of Rows
         <select id="numOfRows">
-            <option selected>Select</option>
-            <option>10</option>
-            <option>15</option>
-            <option>20</option>
-            <option>25</option>
-            <option>30</option>
-            <option>40</option>
-            <option>50</option>
+            <option value="10">10</option>
+            <option selected value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
         </select>
         <p id="selectionMessage"></p>
     </div>
+
     <div class="subNavSelections subNavSpacer"></div>
 
-    <button id=startButton class="subNavSelections" onclick="startMaze()">
-        START
-        </button>
-        <div class="subNavSelections subNavSpacer"></div><div class="subNavSelections subNavSpacer"></div>
-        <div class = "subNavSelections statArea">
-            <span>Number of Mazes:</span><span id="mazesWatched" class="spanStats">0</span>
-            <div class="subNavSelections subNavSpacer"></div>
-            <span>Steps:</span><span id="stepsToEntry" class="spanStats">0</span>
+    <div class="subNavSelections">
 
-            </div>
+        How quickly should the maze search?
+       <select id="searchSpeed">
+           <option value="50">50ms</option>
+           <option value="100">100ms</option>
+           <option selected value="200">200ms</option>
+           <option value="250">250ms</option>
+           <option value="500">500ms</option>
+           <option value="1000">1s</option>
+           <option value="5000">5s</option>
+       </select>
+   </div>
+
+   <div class="subNavSelections subNavSpacer"></div>
+
+   <div class="subNavSelections">
+
+    How many walls should there be?
+   <select id="wallDensity">
+       <option value="0">None</option>
+       <option value=".1">Few</option>
+       <option selected value=".34">Normal</option>
+       <option value=".45">More</option>
+       <option value=".6">Many</option>
+   </select>
+</div>
+<div>
+    <button id="startButton" class="" onclick="startMaze()">
+        START
+    </button>
+    <div class="subNavSelections subNavSpacer"></div><div class="subNavSelections subNavSpacer"></div>
+    <div class = "subNavSelections statArea">
+        <span>Number of Mazes:</span><span id="mazesWatched" class="spanStats">0</span>
+        <div class="subNavSelections subNavSpacer"></div>
+        <span>Steps:</span><span id="stepsToEntry" class="spanStats">0</span>
+
+    </div>
+</div>
 <div class="maze-wrapper" id="mazeWrapper"></div>
 
-<!--<div class = "locationdisplay" id = "locationdisplay"><p id = ".coords">That Location Is:</p>
-<div id = "htmlloc" div class = "htmlloc"></div>-->
+<!-- <div class = "locationdisplay" id = "locationdisplay"><p id = ".coords">That Location Is:</p> -->
+<div id = "htmlloc" div class = "htmlloc"></div>
 
 
 

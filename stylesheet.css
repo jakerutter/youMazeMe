@@ -1,6 +1,6 @@
 body {
     background-color: navajowhite;
-     /*background-color: black;*/
+     /* background-color: black; */
 }
 .maze-wrapper {
   background-color: navajowhite;
@@ -46,7 +46,7 @@ body {
 
 .subNavSelections {
     display: inline-block;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .subNavSpacer {
@@ -71,18 +71,6 @@ body {
     padding-left: 5px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*
 .locationdisplay {
     text-align: center;
     height: 75px;
@@ -96,6 +84,7 @@ body {
 
 #htmlloc {
     font-size: 18px;
+    height: 25px;
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
     font-family: verdana;
@@ -104,4 +93,4 @@ body {
 
 .coords {
     font-family: verdana;
-}*/
+}

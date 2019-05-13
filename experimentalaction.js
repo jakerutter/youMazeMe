@@ -58,9 +58,8 @@ function startMaze() {
     $("#"+isTileHtml).html(htmlString);
     });
 
-    var mazePrepped = false;
     prepMaze(nodeArray);
-    // runMazePhase1(nodeArray);
+    //runMazePhase1(nodeArray);
     //runMazePhase2(nodeArray);
     
 };
@@ -128,27 +127,47 @@ function createDivs(maxRow) {
 
 //Set up the maze Orientation and Walls
 function prepMaze(nodeArray){
-
+  var locked = true;
   assignAllNodeIdsToAllTilesArray();
   determineMazeOrientation();
   assignNodeProperties(allTiles,nodeArray);
   generateWallTiles(upAndDown,nodeArray,wallNodes);
+  
+  prepareWallsForPopulateOnTimer(wallNodes);
+}
 
-  //color the walls black one at a time, randomly
+//CREATE LOCKING SEMAPHORE
+function validatePrepComplete(busy) {
+
+    if (!busy){
+        runMazePhase1(nodeArray);
+    } else {
+        return;
+    }
+    
+}
+
+//color the walls black one at a time, randomly
+function prepareWallsForPopulateOnTimer(wallNodes) {
+  var busy = true;
   var wallNodeIndex = 0;
+
   var populateWallTimer = setInterval(function(){
     //let node = getValueFromArray(wallNodes);
-    let node = wallNodes[0];
-    removeItemFromArrayByValue(wallNodes, node);
+    let node = wallNodes[wallNodeIndex];
     populateWallTiles(node);
+    removeItemFromArrayByValue(wallNodes, node);
     wallNodeIndex += 1;    
     
     if (wallNodeIndex > wallNodes.length-1){
         clearInterval(populateWallTimer);
+        busy = false;
     }
   }, 50);
 
-  runMazePhase1(nodeArray);
+    setInterval(function(){
+      validatePrepComplete(busy);
+    }, 200);
 }
 
 //Set up Entry and Exit and Populate them
@@ -159,7 +178,7 @@ function runMazePhase1(nodeArray) {
     exitNode = nodesForEntryAndExit[1];
     populateEntryTile(entryNode, nodeArray);
     populateExitTile(exitNode, nodeArray);
-
+    //recently placed here 
     runMazePhase2(nodeArray);
 };
 
@@ -229,7 +248,7 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
         isWall  = (Math.floor(Math.random()*((maxRow*maxRow-1)-0+1))+0);
         while ((isWall % maxRow == 0) || ((isWall-(maxRow-1))%maxRow == 0) || (isWall == maxRow-1)){
             isWall  = (Math.floor(Math.random()*((maxRow*maxRow-1)-0+1))+0);}
-            for (i=0; i<nodeArray.length; i++){
+            for (var i=0; i<nodeArray.length; i++){
                 if (nodeArray[i].id == isWall){
                 nodeArray[i].isAWall = true;
                 nodeArray[i].backgroundcolor = "black";
@@ -238,7 +257,7 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
                 }}
     else{
         isWall = (Math.floor(Math.random()*((maxRow*maxRow-(maxRow+1))-maxRow+1)) + maxRow);
-        for (i=0; i<nodeArray.length; i++){
+        for (var i=0; i<nodeArray.length; i++){
                 if (nodeArray[i].id == isWall){
                 nodeArray[i].isAWall = true;
                 nodeArray[i].backgroundcolor = "black";

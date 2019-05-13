@@ -28,8 +28,7 @@ function(){
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
-    if ($("#numOfRows").val() === "Select"){
-        return;}
+    if ($("#numOfRows").val() === "Select"){return;}
     if (mazeHasBegun){
         reInitMaze();
         mazeHasBegun = false;
@@ -39,8 +38,8 @@ function startMaze() {
     if ($("#numOfRows").val() != "Select") {
      mazesWatchedCounter += 1;
     TrackMazesWatched(mazesWatchedCounter);
-    }
-else{ return;}
+    } else{ return;}
+
     if (isComplete) { 
         reInitMaze();
         mazeStepsCounter = 0;
@@ -58,9 +57,12 @@ else{ return;}
     var isTileHtml = $(this).attr('id');
     $("#"+isTileHtml).html(htmlString);
     });
+
+    var mazePrepped = false;
     prepMaze(nodeArray);
-    runMazePhase1(nodeArray);
-    runMazePhase2(nodeArray);
+    // runMazePhase1(nodeArray);
+    //runMazePhase2(nodeArray);
+    
 };
 
 
@@ -110,18 +112,18 @@ function createDivs(maxRow) {
   var wrapperDiv = document.getElementById("mazeWrapper");
   var rowDiv;
 	for (var i=0; i < maxRow; i++) {
-		var thisDiv = document.createElement("div");
-    thisDiv.id = "mazeRow-" + i;
-    thisDiv.className = "row";
-  	wrapperDiv.appendChild(thisDiv);
-  	for (var j=0; j < maxColumn; j++) {
-    	rowDiv = document.getElementById("mazeRow-" + i);
-			var thisColumnDiv = document.createElement("div");
-      thisColumnDiv.id = (i*maxRow)+j;
-      thisColumnDiv.className = "mazehole";
-      rowDiv.appendChild(thisColumnDiv);
+	    var thisDiv = document.createElement("div");
+        thisDiv.id = "mazeRow-" + i;
+        thisDiv.className = "row";
+  	    wrapperDiv.appendChild(thisDiv);
+        for (var j=0; j < maxColumn; j++) {
+            rowDiv = document.getElementById("mazeRow-" + i);
+            var thisColumnDiv = document.createElement("div");
+            thisColumnDiv.id = (i*maxRow)+j;
+            thisColumnDiv.className = "mazehole";
+            rowDiv.appendChild(thisColumnDiv);
+        }
     }
-  }
 }
 
 //Set up the maze Orientation and Walls
@@ -131,9 +133,22 @@ function prepMaze(nodeArray){
   determineMazeOrientation();
   assignNodeProperties(allTiles,nodeArray);
   generateWallTiles(upAndDown,nodeArray,wallNodes);
-  populateWallTiles(nodeArray);
 
-  return nodeArray;
+  //color the walls black one at a time, randomly
+  var wallNodeIndex = 0;
+  var populateWallTimer = setInterval(function(){
+    //let node = getValueFromArray(wallNodes);
+    let node = wallNodes[0];
+    removeItemFromArrayByValue(wallNodes, node);
+    populateWallTiles(node);
+    wallNodeIndex += 1;    
+    
+    if (wallNodeIndex > wallNodes.length-1){
+        clearInterval(populateWallTimer);
+    }
+  }, 50);
+
+  runMazePhase1(nodeArray);
 }
 
 //Set up Entry and Exit and Populate them
@@ -145,7 +160,7 @@ function runMazePhase1(nodeArray) {
     populateEntryTile(entryNode, nodeArray);
     populateExitTile(exitNode, nodeArray);
 
-    return nodeArray;
+    runMazePhase2(nodeArray);
 };
 
 //BFS Search and Populate Maze
@@ -234,14 +249,22 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
     return nodeArray
 };
 
+// //Function to populate Wall Tiles
+// function populateWallTiles(nodeArray){ 
+//     for (var i=0; i<nodeArray.length; i++){
+        
+//        if (nodeArray[i].isAWall == true){
+//             document.getElementById(i).style.backgroundColor = nodeArray[i].backgroundcolor;}
+//         }
+//             return nodeArray;
+// };
+
 //Function to populate Wall Tiles
-function populateWallTiles(nodeArray){ 
-    for (i=0; i<nodeArray.length; i++){
-       if (nodeArray[i].isAWall == true){
-            document.getElementById(i).style.backgroundColor = nodeArray[i].backgroundcolor;}
-        }
-            return nodeArray;
-};
+function populateWallTiles(node){ 
+
+    document.getElementById(node).style.backgroundColor = nodeArray[node].backgroundcolor;
+    
+}
 
 //Function to populate Entry Tile
 function populateEntryTile(entryNode,nodeArray){

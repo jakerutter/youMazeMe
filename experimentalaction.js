@@ -150,23 +150,26 @@ function validatePrepComplete(busy) {
 //color the walls black one at a time, randomly
 function prepareWallsForPopulateOnTimer(wallNodes) {
   var busy = true;
-  var wallNodeIndex = 0;
-
   var populateWallTimer = setInterval(function(){
     //let node = getValueFromArray(wallNodes);
-    let node = wallNodes[wallNodeIndex];
-    populateWallTiles(node);
-    removeItemFromArrayByValue(wallNodes, node);
-    wallNodeIndex += 1;    
+    let wallCount = wallNodes.length -1;   
     
-    if (wallNodeIndex > wallNodes.length-1){
+    if (wallCount <= 0){
         clearInterval(populateWallTimer);
         busy = false;
     }
+
+    let node = wallNodes[0];
+    populateWallTiles(node);
+    removeItemFromArrayByValue(wallNodes, node);
+
   }, 50);
 
-    setInterval(function(){
+    var validateEndPrep = setInterval(function(){
       validatePrepComplete(busy);
+      if(!busy) {
+        clearInterval(validateEndPrep);
+      }
     }, 200);
 }
 
@@ -287,7 +290,7 @@ function populateWallTiles(node){
 
 //Function to populate Entry Tile
 function populateEntryTile(entryNode,nodeArray){
-    for (i=0; i<nodeArray.length; i++){
+    for (var i=0; i<nodeArray.length; i++){
         if (nodeArray[i].id == entryNode){
             nodeArray[i].distance = 0;
             nodeArray[i].visited = true;
@@ -300,7 +303,7 @@ function populateEntryTile(entryNode,nodeArray){
 
 //Function to populate Exit Tile
 function populateExitTile(exitNode,nodeArray){
-    for(i=0; i<nodeArray.length; i++){
+    for(var i=0; i<nodeArray.length; i++){
      if (nodeArray[i].id == exitNode){
             nodeArray[i].distance = 0;
             nodeArray[i].visited = false;
@@ -344,7 +347,9 @@ function populateNodesNextToEntry(nodeArray){
     for (var i=0; i<nodeArray.length; i++){
         if (nodeArray[i].visited == true){       
             if (nodeArray[i].distance == 1){    
+            //IN TESTING
             nodeArray[i].backgroundcolor = nodeArray[i].backgroundcolor[nodeArray[i].distance];
+            //nodeArray[i].backgroundcolor = Maze.getBackgroundColor(nodeArray[i].distance);
             document.getElementById(nodeArray[i].id).style.backgroundColor = nodeArray[i].backgroundcolor;
             }
         }

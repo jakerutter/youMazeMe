@@ -175,30 +175,37 @@ function prepareWallsForPopulateOnTimer(wallNodes) {
 
 //Set up Entry and Exit and Populate them
 function runMazePhase1(nodeArray) {
-
-    createEntryAndExitNodes(upAndDown);
-    entryNode = nodesForEntryAndExit[0];
-    exitNode = nodesForEntryAndExit[1];
-    populateEntryTile(entryNode, nodeArray);
-    populateExitTile(exitNode, nodeArray);
-    //recently placed here 
+    //delay the creation and population of entry and exit by 2 seconds
+    setTimeout(function(){
+        createEntryAndExitNodes(upAndDown);
+        entryNode = nodesForEntryAndExit[0];
+        exitNode = nodesForEntryAndExit[1];
+        populateEntryTile(entryNode, nodeArray);
+        populateExitTile(exitNode, nodeArray);
+    }, 2000);
+    
+  
     runMazePhase2(nodeArray);
 };
 
 //BFS Search and Populate Maze
 function runMazePhase2(nodeArray) {
-    var searchSpeed = $("#searchSpeed").val();
-    searchSpeed = Number(searchSpeed);
-    identifyNodesNextToEntry(entryNode, nodeArray);
-    tID = setTimeout(populateNodesNextToEntry, searchSpeed, nodeArray);
-    identifyValidTiles(nodeArray, exitNode);
-    colordepth = 2;
-    //Timer that delays the populating of nodes for the search
-    timerId = setInterval(function () {
-        populateValidTiles2(nodeArray, exitNode)
-    }, searchSpeed);
+    //delate the maze search by 4 seconds
+    setTimeout(function(){
+        var searchSpeed = $("#searchSpeed").val();
+        searchSpeed = Number(searchSpeed);
+        identifyNodesNextToEntry(entryNode, nodeArray);
+        tID = setTimeout(populateNodesNextToEntry, searchSpeed, nodeArray);
+        identifyValidTiles(nodeArray, exitNode);
+        colordepth = 2;
+        //Timer that delays the populating of nodes for the search
+        timerId = setInterval(function () {
+            populateValidTiles2(nodeArray, exitNode)
+        }, searchSpeed);
 
-    return nodeArray;
+        return nodeArray;
+    }, 4000);
+    
 };
 
 // //assignes each mazehole id to var isTile and pushes them into allTile

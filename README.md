@@ -1,5 +1,9 @@
 # youMazeMe
 
+### Recent Changes
+
+Added information about what is taking place at each stage of the maze.
+
 ### User Controlled Settings
 
 Height & Width dimensions

@@ -28,6 +28,8 @@ function(){
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
+    document.getElementById('mazeExplanation').classList.add("hidden");
+
     if ($("#numOfRows").val() === "Select"){return;}
     if (mazeHasBegun){
         reInitMaze();

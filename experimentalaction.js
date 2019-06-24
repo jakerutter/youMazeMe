@@ -1,7 +1,7 @@
 //https://github.com/jakerutter/youMazeMe
 
 //Global Variables
-var upAndDown = "";  
+var upAndDown = '';  
 var wallNodes = [];
 var nodeArray = [];
 var nodesForEntryAndExit = [];
@@ -22,22 +22,22 @@ var mazeHasBegun = false;
 $('.mazehole').hover(function() {
 ($('#htmlloc').html(this.id))},
 function(){
-    $('#htmlloc').html("");
+    $('#htmlloc').html('');
 });
 
 //Run the Program based on User Selected Size
 var rowsAndColumns = $("#numOfRows");
 function startMaze() {
-    document.getElementById('mazeExplanation').classList.add("hidden");
+    document.getElementById('mazeExplanation').classList.add('hidden');
 
-    if ($("#numOfRows").val() === "Select"){return;}
+    if ($('#numOfRows').val() === 'Select'){return;}
     if (mazeHasBegun){
         reInitMaze();
         mazeHasBegun = false;
     }
 
     mazeHasBegun = true;
-    if ($("#numOfRows").val() != "Select") {
+    if ($('#numOfRows').val() != 'Select') {
      mazesWatchedCounter += 1;
     TrackMazesWatched(mazesWatchedCounter);
     } else{ return;}
@@ -47,17 +47,17 @@ function startMaze() {
         mazeStepsCounter = 0;
         TrackMazeStepsToEntry(mazeStepsCounter);
     }
-    var userChoice = $("#numOfRows").val();
+    var userChoice = $('#numOfRows').val();
    
     maxRow = Number(userChoice);
     maxColumn = Number(userChoice);
     Maze.gradient.setMaxDepth(maxRow + maxColumn);
     
     createDivs(maxRow);
-    var htmlString = ".";
-    $(".mazehole").each(function(){
+    var htmlString = '.';
+    $('.mazehole').each(function(){
     var isTileHtml = $(this).attr('id');
-    $("#"+isTileHtml).html(htmlString);
+    $('#'+isTileHtml).html(htmlString);
     });
 
     prepMaze(nodeArray);
@@ -71,7 +71,7 @@ function startMaze() {
 
 //Delete the divs from the previous maze and reset values
 function reInitMaze() {
-    document.getElementsByClassName("mazehole").remove();
+    document.getElementsByClassName('mazehole').remove();
     upAndDown = undefined;
     wallNodes.length = 0;
     nodeArray.length = 0;
@@ -110,18 +110,18 @@ function reInitMaze() {
 
 //Creates the divs based on maxRow and maxColumn
 function createDivs(maxRow) {
-  var wrapperDiv = document.getElementById("mazeWrapper");
+  var wrapperDiv = document.getElementById('mazeWrapper');
   var rowDiv;
 	for (var i=0; i < maxRow; i++) {
-	    var thisDiv = document.createElement("div");
-        thisDiv.id = "mazeRow-" + i;
-        thisDiv.className = "row";
+	    var thisDiv = document.createElement('div');
+        thisDiv.id = 'mazeRow-' + i;
+        thisDiv.className = 'row';
   	    wrapperDiv.appendChild(thisDiv);
         for (var j=0; j < maxColumn; j++) {
-            rowDiv = document.getElementById("mazeRow-" + i);
-            var thisColumnDiv = document.createElement("div");
+            rowDiv = document.getElementById('mazeRow-' + i);
+            var thisColumnDiv = document.createElement('div');
             thisColumnDiv.id = (i*maxRow)+j;
-            thisColumnDiv.className = "mazehole";
+            thisColumnDiv.className = 'mazehole';
             rowDiv.appendChild(thisColumnDiv);
         }
     }
@@ -194,7 +194,7 @@ function runMazePhase1(nodeArray) {
 function runMazePhase2(nodeArray) {
     //delate the maze search by 4 seconds
     setTimeout(function(){
-        var searchSpeed = $("#searchSpeed").val();
+        var searchSpeed = $('#searchSpeed').val();
         searchSpeed = Number(searchSpeed);
         identifyNodesNextToEntry(entryNode, nodeArray);
         tID = setTimeout(populateNodesNextToEntry, searchSpeed, nodeArray);
@@ -213,7 +213,7 @@ function runMazePhase2(nodeArray) {
 // //assignes each mazehole id to var isTile and pushes them into allTile
 function assignAllNodeIdsToAllTilesArray(){
 
-  $(".mazehole").each(function() {
+  $('.mazehole').each(function() {
     var isTile = $(this).attr('id');
      allTiles.push(isTile);
 
@@ -263,7 +263,7 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
             for (var i=0; i<nodeArray.length; i++){
                 if (nodeArray[i].id == isWall){
                 nodeArray[i].isAWall = true;
-                nodeArray[i].backgroundcolor = "black";
+                nodeArray[i].backgroundcolor = 'black';
                 wallNodes.push(isWall);
             }
                 }}
@@ -272,7 +272,7 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
         for (var i=0; i<nodeArray.length; i++){
                 if (nodeArray[i].id == isWall){
                 nodeArray[i].isAWall = true;
-                nodeArray[i].backgroundcolor = "black";
+                nodeArray[i].backgroundcolor = 'black';
                 wallNodes.push(isWall);
             }
         }}
@@ -316,7 +316,7 @@ function populateExitTile(exitNode,nodeArray){
      if (nodeArray[i].id == exitNode){
             nodeArray[i].distance = 0;
             nodeArray[i].visited = false;
-            document.getElementById(exitNode).style.backgroundColor = "firebrick";
+            document.getElementById(exitNode).style.backgroundColor = 'firebrick';
      }
     }
     return nodeArray;
@@ -510,7 +510,7 @@ function populateValidTiles2(nodeArray, exitNode) {
 
 //retrieve optimal node that reaches the exit and color that path, show distance
 function theOptimalPath() {
-    var searchSpeed = $("#searchSpeed").val();
+    var searchSpeed = $('#searchSpeed').val();
     searchSpeed = Number(searchSpeed);
     var optimalPathArray = [];
     optimalPathArray.length = 0;
@@ -534,7 +534,7 @@ function populateTheOptimalPath(optimalPathArray) {
         }
         else {
         optimalPathArray.push(nodeArray[index].pointer);
-        nodeArray[index].backgroundcolor = "#FFFFFF";
+        nodeArray[index].backgroundcolor = '#FFFFFF';
         document.getElementById(nodeArray[index].id).style.backgroundColor = nodeArray[index].backgroundcolor;
         $('#'+nodeArray[index].id).html(nodeArray[index].distance);
         index = nodeArray[nodeArray[index].pointer].id;
@@ -556,7 +556,7 @@ function populateTheOptimalPath(optimalPathArray) {
 function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
     var backgroundcolor = {
-        "0": "green", "1": "#1e12bc"
+        '0': 'green', '1': '#1e12bc'
         // "2": "#1218bc", "3": "#1229bc", "4": "#123abc",
         // "5": "#124ebc", "6": "#1262bc", "7":"#1275bc", "8": "#1286bc", "9":"#129abc", "10":"#12aebc",
         // "11":"#12bcb7", "12":"#12bca3", "13":"#12bc8f", "14":"#12bc7b", "15":"#12bc6a",

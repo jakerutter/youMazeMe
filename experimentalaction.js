@@ -280,16 +280,6 @@ function generateWallTiles(upAndDown,nodeArray,wallNodes){
     return nodeArray
 };
 
-// //Function to populate Wall Tiles
-// function populateWallTiles(nodeArray){ 
-//     for (var i=0; i<nodeArray.length; i++){
-        
-//        if (nodeArray[i].isAWall == true){
-//             document.getElementById(i).style.backgroundColor = nodeArray[i].backgroundcolor;}
-//         }
-//             return nodeArray;
-// };
-
 //Function to populate Wall Tiles
 function populateWallTiles(node){ 
 
@@ -557,23 +547,6 @@ function assignNodeProperties(allTiles,nodeArray){
     var myNode = {};
     var backgroundcolor = {
         '0': 'green', '1': '#1e12bc'
-        // "2": "#1218bc", "3": "#1229bc", "4": "#123abc",
-        // "5": "#124ebc", "6": "#1262bc", "7":"#1275bc", "8": "#1286bc", "9":"#129abc", "10":"#12aebc",
-        // "11":"#12bcb7", "12":"#12bca3", "13":"#12bc8f", "14":"#12bc7b", "15":"#12bc6a",
-        // "16":"#12bc56", "17":"#12bc42", "18":"#12bc12", "19": "#12bc1b", "20": "#1ebc12", "21": "#32bc12", 
-        // "22":"#45bc12", "23": "#51bc12", "24": "#64bc12", "25":"#78bc12", "26":"#8fbc12", 
-        // "27":"#a0bc12", "28":"#b7bc12", "29":"#bcae12", "30":"#bc9a12", "31":"#bc8612", "32":"#bc7312", 
-        // "33":"#bc5f12", "34": "#bc5112", "35":"#bc4212", "36":"#bc3412", "37": "#c90c0c", "38":"#ea0404",
-        // "39":"#fc0505", "40": "#ef0000", "41":"#f90000", "42":"#ff0000", "43":"#e20b38", "44":"#e20b6f",
-        // "45":"#e20ba9", "46":"#d70b32", "47":"#a50be2", "48":"#850be2", "49":"#410be2", "50":"#1e12bc",
-        // "51":"#1218bc", "52":"#1229bc", "53":"#123abc", "54":"#124ebc", "55":"#1262bc", "56":"#1275bc",
-        // "57": "#1286bc", "58":"#129abc", "59":"#12aebc", "60":"#12bcb7", "61":"#12bca3", "62":"#12bc8f", 
-        // "63":"#12bc7b", "64":"#12bc6a",  "65":"#12bc56", "66":"#12bc42", "67":"#12bc12", "68": "#12bc1b", 
-        // "69": "#1ebc12", "70": "#32bc12", "71":"#45bc12", "72": "#51bc12", "73": "#64bc12", "74":"#78bc12",
-        // "75":"#8fbc12", "76":"#a0bc12", "77":"#b7bc12", "78":"#bcae12", "79":"#bc9a12", "80":"#bc8612", "81":"#bc7312",
-        // "82":"#bc5f12", "83": "#bc5112", "84":"#bc4212", "85":"#bc3412", "86": "#c90c0c", "87":"#ea0404",
-        // "88":"#fc0505", "89": "#ef0000", "90":"#f90000", "91":"#ff0000", "92":"#e20b38", "93":"#e20b6f",
-        // "94":"#e20ba9", "95":"#d70b32", "96":"#a50be2", "97":"#850be2", "98":"#410be2", "99":"#1e12bc",
     };
   
     for(i=0; i<allTiles.length; i++){

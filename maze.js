@@ -1,7 +1,7 @@
-var Maze = (function (maze, undefined) {
+var Maze = (function (maze) {
   // maze is the local scoped variable of Maze
 
-  maze.upAndDown = "";  
+  maze.upAndDown = '';  
   maze.wallNodes = [];
   maze.nodeArray = [];
   maze.nodesForEntryAndExit = [];
@@ -63,7 +63,7 @@ var Maze = (function (maze, undefined) {
 
   maze.getBackgroundColor = function (currentDepth) {
     var colorValue = maze.gradient.getColorAt(currentDepth);
-    return "#" + colorValue.toString(16).padStart(6, "0");
+    return '#' + colorValue.toString(16).padStart(6, '0');
   };
 
   maze.onLoad = function () {

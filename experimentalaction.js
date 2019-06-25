@@ -122,6 +122,9 @@ function createDivs(maxRow) {
             var thisColumnDiv = document.createElement('div');
             thisColumnDiv.id = (i*maxRow)+j;
             thisColumnDiv.className = 'mazehole';
+            //if a shape other then square is chosen
+            var shape = $('#shapeChoice').val();
+            thisColumnDiv.classList.add(shape);
             rowDiv.appendChild(thisColumnDiv);
         }
     }

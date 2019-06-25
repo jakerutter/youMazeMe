@@ -2,6 +2,20 @@ body {
     background-color: navajowhite;
      /* background-color: black; */
 }
+.circle{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+  }
+.diamond{
+    transform: rotate(45deg);
+}
 .maze-wrapper {
   background-color: navajowhite;
   width: 100%;

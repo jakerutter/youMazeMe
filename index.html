@@ -9,11 +9,8 @@
 <title>Maze</title>
 </head>
 <body style= "text-align: center";>
-    
 <h1 class= "headtitle">You 'Maze Me</h1>
-
     <div class="subNavSelections">
-
          # of Rows
         <select id="numOfRows" class="pretty-selector">
             <option value="10">10</option>
@@ -24,12 +21,9 @@
         </select>
         <p id="selectionMessage"></p>
     </div>
-
     <div class="subNavSelections subNavSpacer"></div>
-
     <div class="subNavSelections">
-
-        How quickly should the maze search?
+        Search Speed
        <select id="searchSpeed" class="pretty-selector">
            <option value="50">50ms</option>
            <option value="100">100ms</option>
@@ -40,18 +34,25 @@
            <option value="5000">5s</option>
        </select>
    </div>
-
    <div class="subNavSelections subNavSpacer"></div>
-
    <div class="subNavSelections">
-
-    How many walls should there be?
+    Wall Density
    <select id="wallDensity" class="pretty-selector">
        <option value="0">None</option>
        <option value=".1">Few</option>
        <option selected value=".34">Normal</option>
        <option value=".45">More</option>
        <option value=".6">Many</option>
+   </select>
+</div>
+<div class="subNavSelections subNavSpacer"></div>
+<div class="subNavSelections">
+    Node Shape
+   <select id="shapeChoice" class="pretty-selector">
+       <option selected value="square">Square</option>
+       <option value="circle">Circle</option>
+       <option value="triangle">Triangle</option>
+       <option value="diamond">Diamond</option>
    </select>
 </div>
 <div>
@@ -63,7 +64,6 @@
         <span>Number of Mazes:</span><span id="mazesWatched" class="spanStats">0</span>
         <div class="subNavSelections subNavSpacer"></div>
         <span>Steps:</span><span id="stepsToEntry" class="spanStats">0</span>
-
     </div>
 </div>
 <div class="maze-wrapper" id="mazeWrapper">

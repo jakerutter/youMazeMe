@@ -2,6 +2,7 @@
 
 ### Recent Changes
 
+User can now select the shape of the nodes. Options are square, circle, triangle and diamond.
 Added information about what is taking place at each stage of the maze.
 
 ### User Controlled Settings
